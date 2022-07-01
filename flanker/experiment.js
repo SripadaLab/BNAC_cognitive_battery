@@ -59,37 +59,37 @@ var correct_responses = jsPsych.randomization.repeat([
 	["right arrow", 39]
 ], 1)
 var test_stimuli = [{
-	image: '<div class = centerbox><div class = flanker-text>ffhff</div></div>',
+	image: '<div class = centerbox><div class = flanker-text><<><<</div></div>',
 	data: {
-		correct_response: 72,
+		correct_response: 39,
 		condition: 'incompatible',
 		trial_id: 'stim'
 	}
 }, {
-	image: '<div class = centerbox><div class = flanker-text>hhfhh</div></div>',
+	image: '<div class = centerbox><div class = flanker-text>>><>></div></div>',
 	data: {
-		correct_response: 70,
+		correct_response: 37,
 		condition: 'incompatible',
 		trial_id: 'stim'
 	}
 }, {
-	image: '<div class = centerbox><div class = flanker-text>hhhhh</div></div>',
+	image: '<div class = centerbox><div class = flanker-text>>>>>></div></div>',
 	data: {
-		correct_response: 72,
+		correct_response: 39,
 		condition: 'compatible',
 		trial_id: 'stim'
 	}
 }, {
-	image: '<div class = centerbox><div class = flanker-text>fffff</div></div>',
+	image: '<div class = centerbox><div class = flanker-text><<<<<</div></div>',
 	data: {
-		correct_response: 70,
+		correct_response: 37,
 		condition: 'compatible',
 		trial_id: 'stim'
 	}
 }];
 
-practice_len = 12 //5
-exp_len = 100 //5
+practice_len = 20 //5
+exp_len = 240 //5
 var practice_trials = jsPsych.randomization.repeat(test_stimuli, practice_len / 4, true);
 var test_trials = jsPsych.randomization.repeat(test_stimuli, exp_len / 4, true);
 
@@ -153,7 +153,7 @@ var feedback_instruct_block = {
 var instructions_block = {
 	type: 'poldrack-instructions',
 	pages: [
-		"<div class = centerbox><p class = block-text>In this experiment you will see five letters on the string composed of f's and h's. For instance, you might see 'fffff' or 'hhfhh'. Your task is to respond by pressing the key corresponding to the <strong>middle</strong> letter. So if you see 'ffhff' you would press the 'h' key.</p><p class = block-text>After each respond you will get feedback about whether you were correct or not. We will start with a short practice set.</p></div>"
+		"<div class = centerbox><p class = block-text>In this experiment you will see five symbols on the screen composed of > and <. For instance, you might see '<<<<<' or '>><>>'. Your task is to respond by pressing the key corresponding to the <strong>middle</strong> symbol. So if you see '<<><<f' you would press the right arrow key.</p><p class = block-text>After each response you will get audio feedback if your response was incorrect. We will start with a short practice set.</p></div>"
 	],
 	allow_keys: false,
 	data: {
@@ -215,8 +215,8 @@ var fixation_block = {
 		trial_id: "fixation"
 	},
 	choices: 'none',
-	timing_stim: 500,
-	timing_response: 500,
+	timing_stim: 350,
+	timing_response: 350,
 	timing_post_trial: 0,
 	on_finish: changeData,
 };
@@ -231,15 +231,16 @@ for (i = 0; i < practice_len; i++) {
 		stimulus: practice_trials.image[i],
 		is_html: true,
 		key_answer: practice_response_array[i],
-		correct_text: '<div class = centerbox><div style="color:green"; class = center-text>Correct!</div></div>',
-		incorrect_text: '<div class = centerbox><div style="color:red"; class = center-text>Incorrect</div></div>',
+		correct_text: '<div class = centerbox><div style="color:green"; class = center-text></div></div>',
+		incorrect_text: '<div class = centerbox><div style="color:red"; class = center-text></div></div>',
 		timeout_message: '<div class = centerbox><div class = flanker-text>Respond faster</div></div>',
-		choices: [70, 72],
+		choices: [37,39],
 		data: practice_trials.data[i],
-		timing_feedback_duration: 1000,
+		timing_feedback_duration: 1,
 		show_stim_with_feedback: false,
-		timing_response: 1500,
-		timing_post_trial: 500,
+		timing_response: 3000,
+		timing_post_trial: 0,
+		response_ends_trial: true,
 		on_finish: function() {
 			jsPsych.data.addDataToLastTrial({
 				exp_stage: "practice"
@@ -259,15 +260,16 @@ for (i = 0; i < exp_len; i++) {
 		stimulus: test_trials.image[i],
 		is_html: true,
 		key_answer: test_response_array[i],
-		correct_text: '<div class = centerbox><div style="color:green"; class = center-text>Correct!</div></div>',
-		incorrect_text: '<div class = centerbox><div style="color:red"; class = center-text>Incorrect</div></div>',
+		correct_text: '<div class = centerbox><div style="color:green"; class = center-text></div></div>',
+		incorrect_text: '<div class = centerbox><div style="color:red"; class = center-text></div></div>',
 		timeout_message: '<div class = centerbox><div class = flanker-text>Respond faster!</div></div>',
-		choices: [70, 72],
+		choices: [37,39],
 		data: test_trials.data[i],
-		timing_feedback_duration: 1000,
-		timing_response: 1500,
+		timing_feedback_duration: 1,
+		timing_response: 3000,
 		show_stim_with_feedback: false,
-		timing_post_trial: 500,
+		timing_post_trial: 0,
+		response_ends_trial: true,
 		on_finish: function() {
 			jsPsych.data.addDataToLastTrial({
 				exp_stage: "test"
