@@ -153,7 +153,7 @@ var feedback_instruct_block = {
 var instructions_block = {
 	type: 'poldrack-instructions',
 	pages: [
-		"<div class = centerbox><p class = block-text>In this experiment you will see five symbols on the screen composed of > and <. For instance, you might see '<<<<<' or '>><>>'. Your task is to respond by pressing the key corresponding to the <strong>middle</strong> symbol. So if you see '<<><<f' you would press the right arrow key.</p><p class = block-text>After each response you will get audio feedback if your response was incorrect. We will start with a short practice set.</p></div>"
+		"<div class = centerbox><p class = block-text>In this experiment you will see five symbols on the screen composed of > and <. For instance, you might see '<<<<<' or '>><>>'. Your task is to respond by pressing the key corresponding to the <strong>middle</strong> symbol. So if you see '<<><<' you would press the right arrow key.</p><p class = block-text>After each response you will get audio feedback if your response was incorrect. We will start with a short practice set.</p></div>"
 	],
 	allow_keys: false,
 	data: {
