@@ -306,7 +306,7 @@ var fixation_block = {
 	data: {
 		trial_id: "fixation"
 	},
-	timing_post_trial: 350,
+	timing_post_trial: 0,
 	timing_stim: 350,
 	timing_response: 350,
 	on_finish: function() {
