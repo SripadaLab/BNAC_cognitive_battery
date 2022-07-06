@@ -131,10 +131,9 @@ var post_task_block = {
    data: {
        trial_id: "post task questions"
    },
-   questions: ['<p class = center-block-text style = "font-size: 20px">Please summarize what you were asked to do in this task.</p>',
-              '<p class = center-block-text style = "font-size: 20px">Do you have any comments about this task?</p>'],
-   rows: [15, 15],
-   columns: [60,60]
+   questions: ['<p class = center-block-text style = "font-size: 20px">Please summarize what you were asked to do in this task.</p>'],
+   rows: [15],
+   columns: [60]
 };
 /* define static blocks */
 var feedback_instruct_text =
@@ -209,7 +208,7 @@ var start_test_block = {
 
 var fixation_block = {
 	type: 'poldrack-single-stim',
-	stimulus: '<div class = centerbox><div class = fixation>+</div></div>',
+	stimulus: '<div class = centerbox><div class = fixation></div></div>',
 	is_html: true,
 	data: {
 		trial_id: "fixation"
