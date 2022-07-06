@@ -170,7 +170,7 @@ var incongruent_stim = [{
 var stims = [].concat(congruent_stim, congruent_stim, incongruent_stim)
 var practice_len = 24
 var practice_stims = jsPsych.randomization.repeat(stims, practice_len / 12, true)
-var exp_len = 96
+var exp_len = 240
 var test_stims = jsPsych.randomization.repeat(stims, exp_len / 12, true)
 var choices = [66, 71, 82]
 var exp_stage = 'practice'
@@ -202,10 +202,9 @@ var post_task_block = {
    data: {
        trial_id: "post task questions"
    },
-   questions: ['<p class = center-block-text style = "font-size: 20px">Please summarize what you were asked to do in this task.</p>',
-              '<p class = center-block-text style = "font-size: 20px">Do you have any comments about this task?</p>'],
-   rows: [15, 15],
-   columns: [60,60]
+   questions: ['<p class = center-block-text style = "font-size: 20px">Please summarize what you were asked to do in this task.</p>'],
+   rows: [15],
+   columns: [60]
 };
 
 /* define static blocks */
@@ -301,15 +300,15 @@ var start_test_block = {
 
 var fixation_block = {
 	type: 'poldrack-single-stim',
-	stimulus: '<div class = centerbox><div class = fixation>+</div></div>',
+	stimulus: '<div class = centerbox><div class = fixation></div></div>',
 	is_html: true,
 	choices: 'none',
 	data: {
 		trial_id: "fixation"
 	},
-	timing_post_trial: 500,
-	timing_stim: 500,
-	timing_response: 500,
+	timing_post_trial: 350,
+	timing_stim: 350,
+	timing_response: 350,
 	on_finish: function() {
 		jsPsych.data.addDataToLastTrial({'exp_stage': exp_stage})
 	},
@@ -328,15 +327,16 @@ for (i = 0; i < practice_len; i++) {
 		data: practice_stims.data[i],
 		key_answer: practice_stims.key_answer[i],
 		is_html: true,
-		correct_text: '<div class = fb_box><div class = center-text><font size = 20>Correct!</font></div></div>',
-		incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>Incorrect</font></div></div>',
+		correct_text: '<div class = fb_box><div class = center-text><font size = 20></font></div></div>',
+		incorrect_text: '<div class = fb_box><div class = center-text><font size = 20></font></div></div>',
 		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
 		choices: choices,
-		timing_response: 1500,
+		timing_response: 3000,
 		timing_stim: -1,
-		timing_feedback_duration: 500,
+		timing_feedback_duration: 1,
 		show_stim_with_feedback: true,
-		timing_post_trial: 250,
+		timing_post_trial: 0,
+		response_ends_trial: true,
 		on_finish: function() {
 			jsPsych.data.addDataToLastTrial({
 				trial_id: 'stim',
@@ -359,15 +359,16 @@ for (i = 0; i < exp_len; i++) {
 		data: test_stims.data[i],
 		key_answer: test_stims.key_answer[i],
 		is_html: true,
-		correct_text: '<div class = fb_box><div class = center-text><font size = 20>Correct!</font></div></div>',
-		incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>Incorrect</font></div></div>',
+		correct_text: '<div class = fb_box><div class = center-text><font size = 20></font></div></div>',
+		incorrect_text: '<div class = fb_box><div class = center-text><font size = 20></font></div></div>',
 		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
 		choices: choices,
-		timing_response: 1500,
+		timing_response: 3000,
 		timing_stim: -1,
-		timing_feedback_duration: 500,
+		timing_feedback_duration: 1,
 		show_stim_with_feedback: true,
-		timing_post_trial: 250,
+		timing_post_trial: 0,
+		response_ends_trial: true,
 		on_finish: function() {
 			jsPsych.data.addDataToLastTrial({
 				trial_id: 'stim',
