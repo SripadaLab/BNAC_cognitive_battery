@@ -63,13 +63,14 @@ var instructTimeThresh = 0 ///in seconds
 // task specific variables
 var current_trial = 0
 var letters = '27'
+var sides = '12'
 var num_blocks = 1 //
 var num_trials = 40 //per block
-var num_practice_trials = 20 //per trial type
+var num_practice_trials = 1 //per trial type
 var delays = jsPsych.randomization.shuffle([1,1,1,2,2,2])
 var control_before = Math.round(Math.random()) //0 control comes before test, 1, after
 var stims = [] //hold stims per block
-
+var fixtimes = [500,600,700,800,900,1000]
 /* ************************************ */
 /* Set up jsPsych blocks */
 /* ************************************ */
@@ -196,6 +197,23 @@ var start_control_block = {
 	timing_post_trial: 1000
 };
 
+
+var fixation_block = {
+	type: 'poldrack-single-stim',
+	stimulus: '<div class = centerbox><div class = fixation></div></div>',
+	is_html: true,
+	choices: 'none',
+	data: {
+		trial_id: "fixation"
+	},
+	timing_post_trial: 0,
+	timing_stim: 350,
+	timing_response: 350,
+	on_finish: function() {
+		jsPsych.data.addDataToLastTrial({'exp_stage': exp_stage})
+	},
+};
+
 //Setup 1-back practice
 practice_trials = []
 for (var i = 0; i < (num_practice_trials); i++) {
@@ -263,10 +281,6 @@ n_back_experiment.push(instruction_node);
 n_back_experiment.push(start_practice_block)
 n_back_experiment = n_back_experiment.concat(practice_trials)
 
-if (control_before === 0) {
-	n_back_experiment.push(start_control_block)
-	n_back_experiment = n_back_experiment.concat(control_trials)
-}
 for (var d = 0; d < delays.length; d++) {
 	var delay = delays[d]
 	var sidetext = "error"
@@ -297,31 +311,109 @@ for (var d = 0; d < delays.length; d++) {
 			} else {
 				target=40
 			}
-			var test_block = {
-				type: 'poldrack-single-stim',
-				is_html: true,
-				stimulus: '<div class = centerbox><div class = center-text>' + stim + '</div></div>',
-				data: {
-					trial_id: "stim",
-					exp_stage: "test",
-					load: delay,
-					stim: stim,
-					target: target
-				},
-				choices: [37,40],
-				timing_stim: 500,
-				timing_response: 2000,
-				timing_post_trial: 0,
-				on_finish: record_acc
+			var side = randomDraw(sides)
+			var cuetextl = ''
+			var cuetextr = ''
+			if (side==1) {
+				cuetextl = '<div class="white-outer g1"></div>'
+				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+			} else {
+				cuetextr = '<div class="white-outer g3"></div>'
+				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+			}
+			
+			var fixtime = randomDraw(fixtimes)
+			var fixation_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="black"><div class="mask"></div></div></div></div></div>',
+					choices: 'none',
+					data: {
+						trial_id: "pre-trial fixation"
+					},
+					timing_stim: fixtime,
+					timing_response: fixtime,
+					timing_post_trial: 0
 			};
-			n_back_experiment.push(test_block)
+			var cue_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+					choices: 'none',
+					data: {
+						trial_id: "cue"
+					},
+					timing_stim: 400,
+					timing_response: 400,
+					timing_post_trial: 0
+			};
+			if (side==1) {
+				cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+			} else {
+				cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+			}
+			var stim_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+					data: {
+						trial_id: "number",
+						exp_stage: "",
+						stim: stim,
+						target: target
+					},
+					choices: [37,40],
+					timing_stim: 100,
+					timing_response: 100,
+					timing_post_trial: 0
+			};
+			//randomly generate mask
+			var random1 = Array(50).fill(1);
+			var random2 = Array(50).fill(2);
+			var random = random1.concat(random2);
+			var shuffled = random.map(value => ({ value, sort: Math.random()})).sort((a,b) => a.sort-b.sort).map(({ value })=> value)
+			var gridtext = '';
+			for (var s = 0; s<100; s++) {
+				if (shuffled[s]==1) {
+					gridtext = gridtext + '<div class="b">&nbsp;</div>';
+				} else {
+					gridtext = gridtext + '<div class="w">&nbsp;</div>';
+				}
+			}
+			if (side==1) {
+				cuetextl = '<div class="white-outer g1"><div class="mask">' + gridtext + '</div></div>'
+				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+			} else {
+				cuetextr = '<div class="white-outer g3"><div class="mask">' + gridtext + '</div></div>'
+				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+			}
+			var mask_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					//stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="mask">' + gridtext + '</div></div></div></div>',
+					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+					choices: 'none',
+					data: {
+						trial_id: "mask",
+						exp_stage: "",
+						stim: stim,
+						target: target
+					},
+					choices: [37,40],
+					timing_stim: 3000,
+					timing_response: 3000,
+					timing_post_trial: 0				
+			};
+			
+			n_back_experiment.push(fixation_block)
+			n_back_experiment.push(cue_block)
+			n_back_experiment.push(stim_block)
+			n_back_experiment.push(mask_block)
+			n_back_experiment.push(fixation_block)
 		}
 	}
-	n_back_experiment.push(attention_node)
-}
-if (control_before == 1) {
-	n_back_experiment.push(start_control_block)
-	n_back_experiment = n_back_experiment.concat(control_trials)
 }
 n_back_experiment.push(post_task_block)
 n_back_experiment.push(end_block)
