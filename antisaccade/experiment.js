@@ -123,7 +123,7 @@ var instructions_block = {
 		trial_id: "instruction"
 	},
 	pages: [
-		'<div class = centerbox><p class = block-text>In this experiment you will see a sequence of letters presented one at a time. Your job is to respond by pressing the <strong>left arrow key</strong> when the letter matches the same letter that occured either 1, 2 or 3 trials before, otherwise you should press the <strong>down arrow key</strong>. The letters will be both lower and upper case. You should ignore the case (so "t" matches "T")</p><p class = block-text>The specific delay you should pay attention to will differ between blocks of trials, and you will be told the delay before starting a trial block.</p><p class = block-text>For instance, if the delay is 2, you are supposed to press the left arrow key when the current letter matches the letter that occured 2 trials ago. If you saw the sequence: g...G...v...T...b...t...b, you would press the left arrow key on the last "t" and the last "b" and the down arrow key for every other letter.</p><p class = block-text>On one block of trials there will be no delay. On this block you will be instructed to press the left arrow key to the presentation of a specific letter on that trial. For instance, the specific letter may be "t", in which case you would press the left arrow key to "t" or "T".</p></div>',
+		'<div class = centerbox><p class = block-text>In this task, you will see two empty squares on the right and left sides of a cross in the middle of the screen. Soon after the two squares appear, one of them will be filled with a white flash. Right after the white flash, a number will appear very quickly in one of the squares and will then be covered up by a pattern.</p><p class= block-text>You should press the left arrow button if the number shown is odd (3, 5, or 7) and press the down arrow button if the number shown is even (2, 4, or 6). This task is difficult because the number only appears on the screen for a very short amount of time but try your best to guess whether the number is odd or even based on what you are able to see.</p><p class=block-text>In some of the trials in this task, the number will appear on the same side as the white flash, but in other trials the number will appear on the opposite side. You will be told before each block of trials whether the number will appear on the same side or the opposite side as the white flash.</p></div>',
 	],
 	allow_keys: false,
 	show_clickable_nav: true,
@@ -224,7 +224,7 @@ var practice_block = {
 	data: {
 		trial_id: "saccade practice"
 	},
-	text: '<div class = centerbox><p class = block-text>During this practice block, the number will appear on the same side as the cue.</p><p class=block-text>Press <strong>enter</strong> to start practice.</p></div>',
+	text: '<div class = centerbox><p class = block-text>In these practice trials, the number will always appear on the <i>same side</i> as the white flash.</p><p class=block-text>Press <strong>enter</strong> to start practice.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000
 };
@@ -369,7 +369,7 @@ var practice_block = {
 	data: {
 		trial_id: "saccade practice"
 	},
-	text: '<div class = centerbox><p class = block-text>During this practice block, the number will appear on the opposite side as the cue.</p><p class=block-text>Press <strong>enter</strong> to start practice.</p></div>',
+	text: '<div class = centerbox><p class = block-text>In these practice trials, the number will always appear on the <i>opposite side</i> as the white flash.</p><p class=block-text>Press <strong>enter</strong> to start practice.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000
 };
@@ -524,12 +524,12 @@ for (var d = 0; d < delays.length; d++) {
 			trial_id: "saccade_text"
 		},
 		timing_response: 180000,
-		text: '<div class = centerbox><p class = block-text>In the next block, the target number will appear on the ' + sidetext + ' side of the screen from the cue</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
+		text: '<div class = centerbox><p class = block-text>For the trials in this block, the number will always appear on the <i>' + sidetext + ' side</i> as the white flash.</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 		cont_key: [13]
 	};
 	n_back_experiment.push(start_delay_block)
 	for (var b = 0; b < num_blocks; b++) {
-		n_back_experiment.push(start_test_block)
+		//n_back_experiment.push(start_test_block)
 		var target = ''
 		stims = []
 		for (var i = 0; i < num_trials; i++) {
