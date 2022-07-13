@@ -29,11 +29,11 @@
 $( document ).ready(function() {
 
     jsPsych.init({
-             timeline: n_back_experiment,
+             timeline: anti_saccade_experiment,
              display_element: "getDisplayElement",
              fullscreen: true,
              on_trial_finish: function(data){
-               addID('n-back')
+               addID('anti_saccade')
              },
 
              on_finish: function(data){

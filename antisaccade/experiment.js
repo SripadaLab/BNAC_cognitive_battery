@@ -63,11 +63,20 @@ var instructTimeThresh = 0 ///in seconds
 // task specific variables
 var current_trial = 0
 var letters = '27'
+var evenstim = '246'
+var oddstim = '357'
 var sides = '12'
 var num_blocks = 1 //
-var num_trials = 3 //per block
-var num_practice_trials = 2 //per trial type
+var num_trials = 4 //per block 40 per block, randomly shuffled equal amounts of odd/even left/right, but actual number randomly drawn on each trial
+var num_practice_trials = 4 //per trial type
 var delays = jsPsych.randomization.shuffle([1,1,1,2,2,2])
+var factors = {
+	even: ['e','o'],
+	side: ['l','r']
+}
+
+var full_design = jsPsych.randomization.factorial(factors,num_practice_trials/4,true)
+
 var control_before = Math.round(Math.random()) //0 control comes before test, 1, after
 var stims = [] //hold stims per block
 var fixtimes = [500,600,700,800,900,1000]
@@ -156,7 +165,7 @@ var end_block = {
 	timing_response: 180000,
 	data: {
 		trial_id: "end",
-		exp_id: 'n_back'
+		exp_id: 'anti_saccade'
 	},
 	text: '<div class = centerbox><p class = center-block-text>Thanks for completing this task!</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
@@ -190,11 +199,12 @@ var intertrial_fixation_block = {
 };
 
 //Set up experiment
-var n_back_experiment = []
-n_back_experiment.push(instruction_node);
-n_back_experiment.push(start_practice_block)
+var anti_saccade_experiment = []
+anti_saccade_experiment.push(instruction_node);
+anti_saccade_experiment.push(start_practice_block)
 
 //Setup saccade practice
+
 practice_trials = []
 var practice_block = {
 	type: 'poldrack-text',
@@ -208,22 +218,30 @@ var practice_block = {
 };
 practice_trials.push(practice_block)
 	
+var full_design = jsPsych.randomization.factorial(factors,num_practice_trials/4,true)
+
 for (var i = 0; i < (num_practice_trials); i++) {
-	var stim = randomDraw(letters)
+	side = full_design.side[i]
+	even = full_design.even[i]
+	var stim = ''
+	if (even=='e') {
+		stim = randomDraw(evenstim)
+	} else {
+		stim = randomDraw(oddstim)
+	}
 	stims.push(stim)
 	target = stim
-	if (stim == 2) { 
+	if (stim%2 == 1) { 
 		correct_response = 37
 	} else {
 		correct_response = 40
 	}
 
-	
 	delay=1
-	var side = randomDraw(sides)
+	//var side = randomDraw(sides)
 	var cuetextl = ''
 	var cuetextr = ''
-	if (side==1) {
+	if (side=='l') {
 		cuetextl = '<div class="white-outer g1"></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
 	} else {
@@ -256,16 +274,16 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			timing_response: 400,
 			timing_post_trial: 0
 	};
-	if (side==1 & delay==1) {
+	if (side=='l' & delay==1) {
 		cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
-	} else if(side==2 & delay==1) {
+	} else if(side=='r' & delay==1) {
 		cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
-	} else if(side==1 & delay==2) {
+	} else if(side=='l' & delay==2) {
 		cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
-	} else if(side==2 & delay==2) {
+	} else if(side=='r' & delay==2) {
 		cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
 	}
@@ -300,10 +318,10 @@ for (var i = 0; i < (num_practice_trials); i++) {
 		}
 	}
 
-	if ((side==1 & delay==1) | (side==2 & delay==2)) {
+	if ((side=='l' & delay==1) | (side=='r' & delay==2)) {
 		cuetextl = '<div class="white-outer g1"><div class="mask">' + gridtext + '</div></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
-	} else if ((side==2 & delay==1) | (side==1 & delay==2)){
+	} else if ((side=='r' & delay==1) | (side=='l' & delay==2)){
 		cuetextr = '<div class="white-outer g3"><div class="mask">' + gridtext + '</div></div>'
 		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
 	}
@@ -338,14 +356,14 @@ for (var i = 0; i < (num_practice_trials); i++) {
 	practice_trials.push(mask_block)
 	practice_trials.push(intertrial_fixation_block)
 }
-n_back_experiment = n_back_experiment.concat(practice_trials)
+anti_saccade_experiment = anti_saccade_experiment.concat(practice_trials)
 
 practice_trials = []
 var practice_block = {
 	type: 'poldrack-text',
 	timing_response: 180000,
 	data: {
-		trial_id: "saccade practice"
+		trial_id: "anti-saccade practice"
 	},
 	text: '<div class = centerbox><p class = block-text>In these practice trials, the number will always appear on the <i>opposite side</i> as the white flash.</p><p class=block-text>Press <strong>enter</strong> to start practice.</p></div>',
 	cont_key: [13],
@@ -353,22 +371,30 @@ var practice_block = {
 };
 practice_trials.push(practice_block)
 	
+var full_design = jsPsych.randomization.factorial(factors,num_practice_trials/4,true)
+	
 for (var i = 0; i < (num_practice_trials); i++) {
-	var stim = randomDraw(letters)
+	side = full_design.side[i]
+	even = full_design.even[i]
+	var stim = ''
+	if (even=='e') {
+		stim = randomDraw(evenstim)
+	} else {
+		stim = randomDraw(oddstim)
+	}
 	stims.push(stim)
 	target = stim
-	if (stim == 2) { 
+	if (stim%2 == 1) { 
 		correct_response = 37
 	} else {
 		correct_response = 40
 	}
 
-	
 	delay=2
-	var side = randomDraw(sides)
+	//var side = randomDraw(sides)
 	var cuetextl = ''
 	var cuetextr = ''
-	if (side==1) {
+	if (side=='l') {
 		cuetextl = '<div class="white-outer g1"></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
 	} else {
@@ -401,16 +427,16 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			timing_response: 400,
 			timing_post_trial: 0
 	};
-	if (side==1 & delay==1) {
+	if (side=='l' & delay==1) {
 		cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
-	} else if(side==2 & delay==1) {
+	} else if(side=='r' & delay==1) {
 		cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
-	} else if(side==1 & delay==2) {
+	} else if(side=='l' & delay==2) {
 		cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
-	} else if(side==2 & delay==2) {
+	} else if(side=='r' & delay==2) {
 		cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
 	}
@@ -445,10 +471,10 @@ for (var i = 0; i < (num_practice_trials); i++) {
 		}
 	}
 
-	if ((side==1 & delay==1) | (side==2 & delay==2)) {
+	if ((side=='l' & delay==1) | (side=='r' & delay==2)) {
 		cuetextl = '<div class="white-outer g1"><div class="mask">' + gridtext + '</div></div>'
 		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
-	} else if ((side==2 & delay==1) | (side==1 & delay==2)){
+	} else if ((side=='r' & delay==1) | (side=='l' & delay==2)){
 		cuetextr = '<div class="white-outer g3"><div class="mask">' + gridtext + '</div></div>'
 		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
 	}
@@ -483,45 +509,60 @@ for (var i = 0; i < (num_practice_trials); i++) {
 	practice_trials.push(mask_block)
 	practice_trials.push(intertrial_fixation_block)
 }
-n_back_experiment = n_back_experiment.concat(practice_trials)
+anti_saccade_experiment = anti_saccade_experiment.concat(practice_trials)
 
 
 
 
+	
 for (var d = 0; d < delays.length; d++) {
 	var delay = delays[d]
 	var sidetext = "error"
+	var block_label = "error"
 	if (delay==1) {
 		sidetext="same"
+		block_label="saccade block"
 	} else {
 		sidetext="opposite"
+		block_label="anti-saccade block"
 	}
 	var start_delay_block = {
 		type: 'poldrack-text',
 		data: {
-			trial_id: "saccade_text"
+			trial_id: block_label
 		},
 		timing_response: 180000,
 		text: '<div class = centerbox><p class = block-text>For the trials in this block, the number will always appear on the <i>' + sidetext + ' side</i> as the white flash.</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 		cont_key: [13]
 	};
-	n_back_experiment.push(start_delay_block)
+	anti_saccade_experiment.push(start_delay_block)
 	for (var b = 0; b < num_blocks; b++) {
-		//n_back_experiment.push(start_test_block)
+		
+		var full_design = jsPsych.randomization.factorial(factors,num_trials/4,true)
+		//anti_saccade_experiment.push(start_test_block)	
+		
 		var target = ''
 		stims = []
 		for (var i = 0; i < num_trials; i++) {
-			var stim = randomDraw(letters)
+			side = full_design.side[i]
+			even = full_design.even[i]
+			var stim = ''
+			if (even=='e') {
+				stim = randomDraw(evenstim)
+			} else {
+				stim = randomDraw(oddstim)
+			}
+			//var stim = randomDraw(letters)
 			stims.push(stim)
-			if (stim==2) {
+			if (stim%2==1) {
 				target=37
 			} else {
 				target=40
 			}
-			var side = randomDraw(sides)
+			//var side = randomDraw(sides)
 			var cuetextl = ''
 			var cuetextr = ''
-			if (side==1) {
+			if (side=='l') {
 				cuetextl = '<div class="white-outer g1"></div>'
 				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
 			} else {
@@ -554,16 +595,16 @@ for (var d = 0; d < delays.length; d++) {
 					timing_response: 400,
 					timing_post_trial: 0
 			};
-			if (side==1 & delay==1) {
+			if (side=='l' & delay==1) {
 				cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
-			} else if(side==2 & delay==1) {
+			} else if(side=='r' & delay==1) {
 				cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
-			} else if(side==1 & delay==2) {
+			} else if(side=='l' & delay==2) {
 				cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
-			} else if(side==2 & delay==2) {
+			} else if(side=='r' & delay==2) {
 				cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
 				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
 			}
@@ -597,10 +638,10 @@ for (var d = 0; d < delays.length; d++) {
 					gridtext = gridtext + '<div class="w">&nbsp;</div>';
 				}
 			}
-			if ((side==1 & delay==1) | (side==2 & delay==2)) {
+			if ((side=='l' & delay==1) | (side=='r' & delay==2)) {
 				cuetextl = '<div class="white-outer g1"><div class="mask">' + gridtext + '</div></div>'
 				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
-			} else if ((side==2 & delay==1) | (side==1 & delay==2)){
+			} else if ((side=='r' & delay==1) | (side=='l' & delay==2)){
 				cuetextr = '<div class="white-outer g3"><div class="mask">' + gridtext + '</div></div>'
 				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
 			}
@@ -626,13 +667,13 @@ for (var d = 0; d < delays.length; d++) {
 					timing_post_trial: 0				
 			};
 			
-			n_back_experiment.push(fixation_block)
-			n_back_experiment.push(cue_block)
-			n_back_experiment.push(stim_block)
-			n_back_experiment.push(mask_block)
-			n_back_experiment.push(intertrial_fixation_block)
+			anti_saccade_experiment.push(fixation_block)
+			anti_saccade_experiment.push(cue_block)
+			anti_saccade_experiment.push(stim_block)
+			anti_saccade_experiment.push(mask_block)
+			anti_saccade_experiment.push(intertrial_fixation_block)
 		}
 	}
 }
-n_back_experiment.push(post_task_block)
-n_back_experiment.push(end_block)
+anti_saccade_experiment.push(post_task_block)
+anti_saccade_experiment.push(end_block)
