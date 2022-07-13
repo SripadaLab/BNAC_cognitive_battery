@@ -304,8 +304,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			},
 			choices: [37,40],
 			key_answer: correct_response,
-			timing_stim: 100,
-			timing_response: 100,
+			timing_stim: 80,
+			timing_response: 80,
 			timing_post_trial: 0
 	};
 	//randomly generate mask
@@ -348,6 +348,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			},
 			choices: [37,40],
 			key_answer: correct_response,
+			response_ends_trial: true,
 			timing_stim: 3000,
 			timing_response: 3000,
 			timing_post_trial: 0				
@@ -448,8 +449,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			},
 			choices: [37,40],
 			key_answer: correct_response,
-			timing_stim: 100,
-			timing_response: 100,
+			timing_stim: 80,
+			timing_response: 80,
 			timing_post_trial: 0
 	};
 	//randomly generate mask
@@ -492,6 +493,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			},
 			choices: [37,40],
 			key_answer: correct_response,
+			response_ends_trial: true,
 			timing_stim: 3000,
 			timing_response: 3000,
 			timing_post_trial: 0				
@@ -600,8 +602,8 @@ for (var d = 0; d < delays.length; d++) {
 					},
 					choices: [37,40],
 					key_answer: correct_response,
-					timing_stim: 100,
-					timing_response: 100,
+					timing_stim: 80,
+					timing_response: 80,
 					timing_post_trial: 0
 			};
 			//randomly generate mask
@@ -636,9 +638,11 @@ for (var d = 0; d < delays.length; d++) {
 						target: target,
 						correct_response: correct_response
 					},
-					timing_feedback_duration: -1,
+					timing_feedback_duration: 500,
 					choices: [37,40],
 					key_answer: correct_response,
+					response_ends_trial: true,
+					timeout_message: '<div class = centerbox><div style="font-size:60px" class = block-text>Respond Faster!</div></div>',
 					timing_stim: 3000,
 					timing_response: 3000,
 					timing_post_trial: 0				

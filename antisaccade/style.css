@@ -39,7 +39,7 @@
 }
 
 .container {
-	width: 50vw;
+	width: 60vw;
 	display: grid;
 	grid-template-columns: 33.3% 33.3% 33.3%;
 	grid-template-rows: 100%;
