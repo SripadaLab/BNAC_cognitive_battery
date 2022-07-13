@@ -166,34 +166,12 @@ var end_block = {
 
 var start_practice_block = {
 	type: 'poldrack-text',
-	text: '<div class = centerbox><p class = block-text>Starting practice. During practice, you should press the left arrow key when the current letter matches the letter that appeared 1 trial before. Otherwise press the down arrow key</p><p class = block-text>You will receive feedback about whether you were correct or not during practice. There will be no feedback during the main experiment. Press <strong>enter</strong> to begin.</p></div>',
+	text: '<div class = centerbox><p class = block-text>Practice is coming up next. Remember, you should press the left arrow key when the number is odd, and the down arrow key when the number is even. </p><p class = block-text>During practice, you will receive feedback about whether you were correct or not. There will be no feedback during the main experiment. Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
 	data: {
 		trial_id: "instruction"
 	},
 	timing_response: 180000,
-	timing_post_trial: 1000
-};
-
-var start_test_block = {
-	type: 'poldrack-text',
-	data: {
-		trial_id: "test_intro"
-	},
-	timing_response: 180000,
-	text: '<div class = centerbox><p class = block-text>Starting a test block.</p><p class = block-text>Press <strong>enter</strong> to begin.</p></div>',
-	cont_key: [13],
-	timing_post_trial: 1000
-};
-
-var start_control_block = {
-	type: 'poldrack-text',
-	timing_response: 180000,
-	data: {
-		trial_id: "control_intro"
-	},
-	text: '<div class = centerbox><p class = block-text>In this block you do not have to match letters to previous letters. Instead, press the left arrow key everytime you see a "t" or "T" and the down arrow key for all other letters.</p><p class = block-text>Press <strong>enter</strong> to begin.</p></div>',
-	cont_key: [13],
 	timing_post_trial: 1000
 };
 
