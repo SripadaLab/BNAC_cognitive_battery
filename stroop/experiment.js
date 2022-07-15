@@ -314,6 +314,14 @@ var fixation_block = {
 	},
 }
 
+var audio = new Audio();
+audio.src = "error.mp3";
+audio.loop = false;
+
+function errorDing() {
+	audio.play();
+}
+
 /* create experiment definition array */
 stroop_experiment = []
 stroop_experiment.push(instruction_node)
@@ -328,7 +336,7 @@ for (i = 0; i < practice_len; i++) {
 		key_answer: practice_stims.key_answer[i],
 		is_html: true,
 		correct_text: '<div class = fb_box><div class = center-text><font size = 20 style="color:green">Correct</font></div></div>',
-		incorrect_text: '<div class = fb_box><div class = center-text><font size = 20 style="color:red">Incorrect</font></div></div>',
+		incorrect_text: '<div class = fb_box><div class = center-text><font size = 20 style="color:red">Incorrect</font></div></div><script type="text/javascript">errorDing()</script>',
 		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
 		choices: choices,
 		timing_response: 3000,
@@ -367,11 +375,14 @@ for (i = 0; i < exp_len; i++) {
 		show_stim_with_feedback: true,
 		timing_post_trial: 0,
 		response_ends_trial: true,
-		on_finish: function() {
+		on_finish: function(data) {
 			jsPsych.data.addDataToLastTrial({
 				trial_id: 'stim',
 				exp_stage: 'test'
 			})
+			if (data.correct == false & data.block_duration<3000) {
+				errorDing();
+			}
 		}
 	}
 	stroop_experiment.push(test_block)
