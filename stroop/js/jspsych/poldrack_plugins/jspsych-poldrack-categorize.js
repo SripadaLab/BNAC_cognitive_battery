@@ -32,8 +32,7 @@ jsPsych.plugins["poldrack-categorize"] = (function() {
     trial.timing_response = trial.timing_response || -1; // default is no max response time
     trial.timing_feedback_duration = trial.timing_feedback_duration || 2000;
     trial.timing_post_trial = (typeof trial.timing_post_trial === 'undefined') ? 1000 : trial.timing_post_trial;
-	trial.only_timeout = (typeof trial.only_timeout === 'undefined') ? false : trial.only_timeout;
-	
+
     // if any trial variables are functions
     // this evaluates the function and replaces
     // it with the output of the function
@@ -165,7 +164,6 @@ jsPsych.plugins["poldrack-categorize"] = (function() {
       if (timeout && !trial.show_feedback_on_timeout) {
         display_element.append(trial.timeout_message);
       } else {
-		  if (!trial.only_timeout) {
         // show image during feedback if flag is set
         if (trial.show_stim_with_feedback) {
           if (!trial.is_html) {
@@ -195,7 +193,7 @@ jsPsych.plugins["poldrack-categorize"] = (function() {
         // show the feedback
         display_element.append(atext);
       }
-	  }
+	  
       // check if force correct button press is set
       if (trial.force_correct_button_press && correct === false && ((timeout && trial.show_feedback_on_timeout) || !timeout)) {
 
