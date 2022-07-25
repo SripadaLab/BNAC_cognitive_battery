@@ -367,6 +367,8 @@ for (i = 0; i < exp_len; i++) {
 		data: test_stims.data[i],
 		key_answer: test_stims.key_answer[i],
 		is_html: true,
+		correct_text: '',
+		incorrect_text: '<script type="text/javascript">errorDing()</script>',
 		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
 		choices: choices,
 		timing_response: 3000,

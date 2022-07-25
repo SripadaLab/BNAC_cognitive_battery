@@ -220,6 +220,14 @@ var fixation_block = {
 	on_finish: changeData,
 };
 
+var audio = new Audio();
+audio.src = "error.mp3";
+audio.loop = false;
+
+function errorDing() {
+	audio.play();
+}
+
 //Set up experiment
 flanker_experiment = []
 flanker_experiment.push(instruction_node);
@@ -231,8 +239,8 @@ for (i = 0; i < practice_len; i++) {
 		is_html: true,
 		key_answer: practice_response_array[i],
 		correct_text: '<div class = centerbox><div style="color:green"; class = center-text>Correct</div></div>',
-		incorrect_text: '<div class = centerbox><div style="color:red"; class = center-text>Incorrect</div></div>',
-		timeout_message: '<div class = centerbox><div class = flanker-text>Respond Faster!</div></div>',
+		incorrect_text: '<div class = centerbox><div style="color:red"; class = center-text>Incorrect</div></div><script type="text/javascript">errorDing()</script>',
+		timeout_message: '<div class = centerbox><div class = center-text>Respond Faster!</div></div>',
 		choices: [37,39],
 		data: practice_trials.data[i],
 		timing_feedback_duration: 500,
@@ -259,7 +267,9 @@ for (i = 0; i < exp_len; i++) {
 		stimulus: test_trials.image[i],
 		is_html: true,
 		key_answer: test_response_array[i],
-		timeout_message: '<div class = centerbox><div class = flanker-text>Respond Faster!</div></div>',
+		correct_text: '',
+		incorrect_text: '<script type="text/javascript">errorDing()</script>',
+		timeout_message: '<div class = centerbox><div class = center-text>Respond Faster!</div></div>',
 		choices: [37,39],
 		data: test_trials.data[i],
 		timing_feedback_duration: 500,
