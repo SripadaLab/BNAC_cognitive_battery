@@ -270,6 +270,7 @@ for (i = 0; i < exp_len; i++) {
 		correct_text: '',
 		incorrect_text: '<script type="text/javascript">errorDing()</script>',
 		timeout_message: '<div class = centerbox><div class = center-text>Respond Faster!</div></div>',
+		only_timeout_feedback: true,
 		choices: [37,39],
 		data: test_trials.data[i],
 		timing_feedback_duration: 500,

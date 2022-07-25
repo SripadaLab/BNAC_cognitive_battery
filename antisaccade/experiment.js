@@ -198,6 +198,14 @@ var intertrial_fixation_block = {
 	timing_response: 350
 };
 
+var audio = new Audio();
+audio.src = "error.mp3";
+audio.loop = false;
+
+function errorDing() {
+	audio.play();
+}
+
 //Set up experiment
 var anti_saccade_experiment = []
 anti_saccade_experiment.push(instruction_node);
@@ -330,7 +338,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			is_html: true,
 			//stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="mask">' + gridtext + '</div></div></div></div>',
 			correct_text: '<div class = centerbox><div style="color:green;font-size:60px"; class = block-text>Correct!</div></div>',
-			incorrect_text: '<div class = centerbox><div style="color:red;font-size:60px"; class = block-text>Incorrect</div></div>',
+			incorrect_text: '<div class = centerbox><div style="color:red;font-size:60px"; class = block-text>Incorrect</div></div><script type="text/javascript">errorDing()</script>',
 			timeout_message: '<div class = centerbox><div style="font-size:60px" class = block-text>Respond Faster!</div></div>',
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			timing_feedback_duration: 500,
@@ -483,7 +491,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			is_html: true,
 			//stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="mask">' + gridtext + '</div></div></div></div>',
 			correct_text: '<div class = centerbox><div style="color:green;font-size:60px"; class = block-text>Correct!</div></div>',
-			incorrect_text: '<div class = centerbox><div style="color:red;font-size:60px"; class = block-text>Incorrect</div></div>',
+			incorrect_text: '<div class = centerbox><div style="color:red;font-size:60px"; class = block-text>Incorrect</div></div><script type="text/javascript">errorDing()</script>',
 			timeout_message: '<div class = centerbox><div style="font-size:60px" class = block-text>Respond Faster!</div></div>',
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			timing_feedback_duration: 500,
@@ -661,7 +669,10 @@ for (var d = 0; d < delays.length; d++) {
 					choices: [37,40],
 					key_answer: correct_response,
 					response_ends_trial: true,
+					correct_text: '',
+					incorrect_text: '<script type="text/javascript">errorDing()</script>',
 					timeout_message: '<div class = centerbox><div style="font-size:60px" class = block-text>Respond Faster!</div></div>',
+					only_timeout_feedback: true,
 					timing_stim: 3000,
 					timing_response: 3000,
 					timing_post_trial: 0				

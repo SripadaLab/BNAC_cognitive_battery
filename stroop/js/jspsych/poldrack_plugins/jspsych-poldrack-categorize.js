@@ -33,6 +33,9 @@ jsPsych.plugins["poldrack-categorize"] = (function() {
     trial.timing_feedback_duration = trial.timing_feedback_duration || 2000;
     trial.timing_post_trial = (typeof trial.timing_post_trial === 'undefined') ? 1000 : trial.timing_post_trial;
 
+	//adding this option to allow situations with feedback only shown on trial timeout
+	trial.only_timeout_feedback = (typeof trial.only_timeout_feedback === 'undefined') ? false: trial.only_timeout_feedback;
+	
     // if any trial variables are functions
     // this evaluates the function and replaces
     // it with the output of the function
@@ -193,7 +196,6 @@ jsPsych.plugins["poldrack-categorize"] = (function() {
         // show the feedback
         display_element.append(atext);
       }
-	  
       // check if force correct button press is set
       if (trial.force_correct_button_press && correct === false && ((timeout && trial.show_feedback_on_timeout) || !timeout)) {
 
@@ -210,10 +212,14 @@ jsPsych.plugins["poldrack-categorize"] = (function() {
         });
 
       } else {
+		if (trial.only_timeout_feedback && (correct || !timeout)) {
+			trial.timing_feedback_duration=0;
+		}
         setTimeout(function() {
           endTrial();
         }, trial.timing_feedback_duration);
       }
+
     }
 
     function endTrial() {

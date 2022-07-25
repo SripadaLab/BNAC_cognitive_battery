@@ -370,6 +370,7 @@ for (i = 0; i < exp_len; i++) {
 		correct_text: '',
 		incorrect_text: '<script type="text/javascript">errorDing()</script>',
 		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
+		only_timeout_feedback: true,
 		choices: choices,
 		timing_response: 3000,
 		timing_stim: -1,
