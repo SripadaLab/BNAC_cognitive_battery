@@ -232,10 +232,10 @@ function applyMask(arr, mask) {
 	return masked_arr
 }
 
-function makeStim(canvas, backcanvas, angle, contrast) {
+function makeStim(canvas, backcanvas, angle, contrast, sf, sigma) {
 	var jgl_canvas = new Canvas(canvas, backcanvas)
-	var arr = jglMakeGrating(500, 500, 2, angle, 0, 0)
-	var mask = make2dMask(arr, 1, 100)
+	var arr = jglMakeGrating(500, 500, sf, angle, 0, 0)
+	var mask = make2dMask(arr, 1, sigma)
 	var drawing = jglCreateTexture(jgl_canvas, arr, mask, contrast)
 	jgl_canvas.context.putImageData(drawing, 0, 0)
 }
