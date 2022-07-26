@@ -67,12 +67,18 @@ var evenstim = '246'
 var oddstim = '357'
 var sides = '12'
 var num_blocks = 1 //
-var num_trials = 4 //per block 40 per block, randomly shuffled equal amounts of odd/even left/right, but actual number randomly drawn on each trial
+var num_trials = 8 //per block 40 per block, randomly shuffled equal amounts of odd/even left/right, but actual number randomly drawn on each trial
 var num_practice_trials = 4 //per trial type
 var delays = jsPsych.randomization.shuffle([1,1,1,2,2,2])
 var factors = {
 	even: ['e','o'],
 	side: ['l','r']
+}
+
+var time_factors = {
+	even: ['e','o'],
+	side: ['l','r'],
+	time: [50, 100]
 }
 
 var full_design = jsPsych.randomization.factorial(factors,num_practice_trials/4,true)
@@ -308,8 +314,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			},
 			choices: [37,40],
 			key_answer: correct_response,
-			timing_stim: 80,
-			timing_response: 80,
+			timing_stim: 100,
+			timing_response: 100,
 			timing_post_trial: 0
 	};
 	//randomly generate mask
@@ -461,8 +467,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			},
 			choices: [37,40],
 			key_answer: correct_response,
-			timing_stim: 80,
-			timing_response: 80,
+			timing_stim: 100,
+			timing_response: 100,
 			timing_post_trial: 0
 	};
 	//randomly generate mask
@@ -546,7 +552,8 @@ for (var d = 0; d < delays.length; d++) {
 	anti_saccade_experiment.push(start_delay_block)
 	for (var b = 0; b < num_blocks; b++) {
 		
-		var full_design = jsPsych.randomization.factorial(factors,num_trials/4,true)
+		//var full_design = jsPsych.randomization.factorial(factors,num_trials/4,true)
+		var full_design = jsPsych.randomization.factorial(time_factors,num_trials/8,true)
 		//anti_saccade_experiment.push(start_test_block)	
 		
 		var target = ''
@@ -578,6 +585,8 @@ for (var d = 0; d < delays.length; d++) {
 				cuetextr = '<div class="white-outer g3"></div>'
 				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
 			}
+			
+			var stimtime = full_design.time[i];
 			
 			var fixtime = randomDraw(fixtimes)
 			var fixation_block = {
@@ -626,12 +635,12 @@ for (var d = 0; d < delays.length; d++) {
 						exp_stage: "",
 						stim: stim,
 						target: target,
-						correct_response: correct_response
+						correct_response: correct_response,
 					},
 					choices: [37,40],
 					key_answer: correct_response,
-					timing_stim: 80,
-					timing_response: 80,
+					timing_stim: stimtime,
+					timing_response: stimtime,
 					timing_post_trial: 0
 			};
 			//randomly generate mask
