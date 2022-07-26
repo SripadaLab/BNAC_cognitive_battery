@@ -562,10 +562,11 @@ for (var d = 0; d < delays.length; d++) {
 			}
 			//var stim = randomDraw(letters)
 			stims.push(stim)
-			if (stim%2==1) {
-				target=37
+			target=stim
+			if (stim%2 == 1) { 
+				correct_response = 37
 			} else {
-				target=40
+				correct_response = 40
 			}
 			//var side = randomDraw(sides)
 			var cuetextl = ''
