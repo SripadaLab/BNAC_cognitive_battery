@@ -33,26 +33,6 @@ var randomDraw = function(lst) {
 	return lst[index]
 }
 
-//Calculates whether the last trial was correct and records the accuracy in data object
-var record_acc = function() {
-	var global_trial = jsPsych.progress().current_trial_global
-	var stim = jsPsych.data.getData()[global_trial].stim.toLowerCase()
-	var target = jsPsych.data.getData()[global_trial].target.toLowerCase()
-	var key = jsPsych.data.getData()[global_trial].key_press
-	if (stim == target && key == 37) {
-		correct = true
-	} else if (stim != target && key == 40) {
-		correct = true
-	} else {
-		correct = false
-	}
-	jsPsych.data.addDataToLastTrial({
-		correct: correct,
-		trial_num: current_trial
-	})
-	current_trial = current_trial + 1
-}
-
 
 /* ************************************ */
 /* Define experimental variables */
@@ -65,13 +45,19 @@ var instructTimeThresh = 0 ///in seconds
 
 // task specific variables
 var current_trial = 0
-var letters = 'bBdDgGtTvV'
-var num_blocks = 2 //of each delay
-var num_trials = 50
-var num_practice_trials = 25
-var delays = jsPsych.randomization.shuffle([1, 2, 3])
+var stimuli = '123'
+var num_blocks = 3 //of each delay
+var num_trials = 40
+var num_practice_trials = 12
+var delays = jsPsych.randomization.shuffle([2])
 var control_before = Math.round(Math.random()) //0 control comes before test, 1, after
 var stims = [] //hold stims per block
+var trialtypes = ['target','non-target'];
+
+var html_stimuli = 
+['<div class="stimulus1"></div>',
+'<div class="stimulus2"></div>',
+'<div class="stimulus3"></div>'];
 
 /* ************************************ */
 /* Set up jsPsych blocks */
@@ -200,10 +186,18 @@ var start_control_block = {
 	timing_post_trial: 1000
 };
 
+var audio = new Audio();
+audio.src = "error.mp3";
+audio.loop = false;
+
+function errorDing() {
+	audio.play();
+}
+
 //Setup 1-back practice
 practice_trials = []
 for (var i = 0; i < (num_practice_trials); i++) {
-	var stim = randomDraw(letters)
+	var stim = randomDraw(stimuli)
 	stims.push(stim)
 	if (i >= 1) {
 		target = stims[i - 1]
@@ -237,40 +231,70 @@ for (var i = 0; i < (num_practice_trials); i++) {
 	practice_trials.push(practice_block)
 }
 
-//Define control (0-back) block
-var control_trials = []
-for (var i = 0; i < num_trials; i++) {
-	var stim = randomDraw(letters)
-	var control_block = {
-		type: 'poldrack-single-stim',
-		is_html: true,
-		stimulus: '<div class = centerbox><div class = center-text>' + stim + '</div></div>',
-		data: {
-			trial_id: "stim",
-			exp_stage: "test",
-			load: 0,
-			stim: stim,
-			target: 't'
-		},
-		choices: [37,40],
-		timing_stim: 500,
-		timing_response: 2000,
-		timing_post_trial: 0,
-		on_finish: record_acc
-	};
-	control_trials.push(control_block)
-}
-
 //Set up experiment
 var n_back_experiment = []
 n_back_experiment.push(instruction_node);
 n_back_experiment.push(start_practice_block)
-n_back_experiment = n_back_experiment.concat(practice_trials)
+//n_back_experiment = n_back_experiment.concat(practice_trials)
 
-if (control_before === 0) {
-	n_back_experiment.push(start_control_block)
-	n_back_experiment = n_back_experiment.concat(control_trials)
+function setup_nback_trial(stims,i,trialtype,stimuli) {
+	var trial = {
+		type: 'poldrack-categorize',
+		is_html: true,
+		correct_text: '',
+		incorrect_text: '<script type="text/javascript">errorDing()</script>',
+		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
+		only_timeout_feedback: true,
+		choices: [37,40],
+		timing_response: 2500,
+		timing_stim: 2500,
+		timing_feedback_duration: 500,
+		show_stim_with_feedback: false,
+		timing_post_trial: 0,
+		response_ends_trial: true,
+		
+		stimulus: '',
+		key_answer: [],
+		data: {
+			trial_id: "",
+			exp_stage: "2-back",
+			stim: '',
+			correct_response: []
+		}
+	}
+	var stim = '';
+	var correct_response = 40;
+	var small_stim = '';
+	var trial_id = 'non-target';
+	
+	if (i===0) {
+		stim = randomDraw(stimuli);
+		
+	} else if (i===1) {
+		small_stim = stimuli.replace(stims[i-1],'');
+		stim = randomDraw(small_stim);
+		
+	} else {
+		if (trialtype==='target') {
+			trial_id = 'target';
+			stim = stims[i-2];
+			correct_response = 37;
+		} else {
+			small_stim = stimuli.replace(stims[i-1],'').replace(stims[i-2],'');
+			stim = randomDraw(small_stim);
+		}
+	}
+	trial.stimulus = html_stimuli[parseInt(stim)-1];
+	trial.key_answer = correct_response;
+	trial.data.stim = stim;
+	trial.data.correct_response = correct_response;
+	trial.data.trial_id = trial_id;
+	//since it's pass by value, need to do the stims.push(stim) outside the function
+	//trial.stimulus = stim + ' ' + trial_id;
+	
+	return trial
 }
+
 for (var d = 0; d < delays.length; d++) {
 	var delay = delays[d]
 	var start_delay_block = {
@@ -289,37 +313,19 @@ for (var d = 0; d < delays.length; d++) {
 		n_back_experiment.push(start_test_block)
 		var target = ''
 		stims = []
-		for (var i = 0; i < num_trials; i++) {
-			var stim = randomDraw(letters)
-			stims.push(stim)
-			if (i >= delay) {
-				target = stims[i - delay]
-			}
-			var test_block = {
-				type: 'poldrack-single-stim',
-				is_html: true,
-				stimulus: '<div class = centerbox><div class = center-text>' + stim + '</div></div>',
-				data: {
-					trial_id: "stim",
-					exp_stage: "test",
-					load: delay,
-					stim: stim,
-					target: target
-				},
-				choices: [37,40],
-				timing_stim: 500,
-				timing_response: 2000,
-				timing_post_trial: 0,
-				on_finish: record_acc
-			};
-			n_back_experiment.push(test_block)
+		
+		//do first 2 trials as non-targets just to get things going
+		var trialtype = ['non-target','non-target'].concat(jsPsych.randomization.repeat(trialtypes,num_trials/2));
+		
+		for (var i = 0; i < num_trials+2; i++) {
+			
+			var trial = setup_nback_trial(stims,i,trialtype[i],stimuli);
+			stims.push(trial.data.stim);
+			
+			n_back_experiment.push(trial)
 		}
 	}
 	n_back_experiment.push(attention_node)
-}
-if (control_before == 1) {
-	n_back_experiment.push(start_control_block)
-	n_back_experiment = n_back_experiment.concat(control_trials)
 }
 n_back_experiment.push(post_task_block)
 n_back_experiment.push(end_block)

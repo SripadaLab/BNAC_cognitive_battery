@@ -1,3 +1,30 @@
 .center-text {
 	font-size: 100px;
 }
+
+.stimulus1 {
+	position: absolute;
+	background-color: black;
+	top: 10vh;
+	left: 10vw;
+	width: 10vw;
+	height: 10vh;
+}
+
+.stimulus2 {
+	position: absolute;
+	background-color: black;
+	top: 20vh;
+	left: 60vw;
+	width: 10vw;
+	height: 10vh;
+}
+
+.stimulus3 {
+	position: absolute;
+	background-color: black;
+	top: 60vh;
+	left: 30vw;
+	width: 10vw;
+	height: 10vh;
+}

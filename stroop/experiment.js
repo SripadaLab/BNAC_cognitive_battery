@@ -383,9 +383,9 @@ for (i = 0; i < exp_len; i++) {
 				trial_id: 'stim',
 				exp_stage: 'test'
 			})
-			if (data.correct == false & data.block_duration<3000) {
-				errorDing();
-			}
+			//if (data.correct == false & data.block_duration<3000) {
+			//	errorDing();
+			//}
 		}
 	}
 	stroop_experiment.push(test_block)
