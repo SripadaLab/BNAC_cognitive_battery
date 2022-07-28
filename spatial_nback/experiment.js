@@ -202,11 +202,11 @@ function setup_nback_trial(stims,i,trialtype,stimuli,block) {
 		timeout_message: '<div class = fb_box><div class = center-text><font size = 20>Respond Faster!</font></div></div>',
 		only_timeout_feedback: true,
 		choices: [37,40],
-		timing_response: 1000,
+		timing_response: 2500,
 		timing_stim: 1000,
 		timing_feedback_duration: 500,
 		show_stim_with_feedback: false,
-		timing_post_trial: 1500,
+		timing_post_trial: 0,
 		//response_ends_trial: true,
 		response_ends_trial: false,
 		
