@@ -193,6 +193,16 @@ function errorDing() {
 	audio.play();
 }
 
+function adjust_isi(data) {
+	var trial = jsPsych.currentTrial();
+	var isi = 0;
+	if (data.rt>-1) {
+		isi = 2500 - data.rt;
+	}
+	trial.timing_post_trial = isi;
+	
+}
+
 function setup_nback_trial(stims,i,trialtype,stimuli,block) {
 	var trial = {
 		type: 'poldrack-categorize',
@@ -208,7 +218,7 @@ function setup_nback_trial(stims,i,trialtype,stimuli,block) {
 		show_stim_with_feedback: false,
 		timing_post_trial: 0,
 		//response_ends_trial: true,
-		response_ends_trial: false,
+		response_ends_trial: true,
 		
 		stimulus: '',
 		key_answer: [],
@@ -217,7 +227,8 @@ function setup_nback_trial(stims,i,trialtype,stimuli,block) {
 			exp_stage: block,
 			stim: '',
 			correct_response: []
-		}
+		},
+		on_finish: adjust_isi
 	}
 	if (block === "practice") {
 		trial.correct_text = '<div class = fb_box><div class = center-text><font size = 20 style="color:green">Correct</font></div></div>'
