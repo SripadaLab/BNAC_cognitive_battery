@@ -39,3 +39,11 @@
   margin-right:-50%;
   transform: translate(-50%,-150%);
 }
+
+.twohund {
+	width: 200px;
+	font-weight: bold;
+	font-size: 20pt;
+	float:left;
+	text-align: center;
+}
