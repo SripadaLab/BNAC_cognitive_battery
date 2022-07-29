@@ -1,3 +1,56 @@
 .center-text {
 	font-size: 100px;
 }
+
+
+.stimulus1 {
+	width: 125px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right:-50%;
+	transform: translate(-50%,-50%);
+	background-image: url("stimulus1.jpg");
+}
+
+.stimulus2 {
+	width: 125px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right:-50%;
+	transform: translate(-50%,-50%);
+	background-image: url("stimulus2.jpg");
+}
+
+.stimulus3 {
+	width: 125px;
+	height: 150px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right:-50%;
+	transform: translate(-50%,-50%);
+	background-image: url("stimulus3.jpg");
+}
+
+
+.fb_box {
+  width:35vw;
+  height: 20vh;
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin-right:-50%;
+  transform: translate(-50%,-150%);
+}
+
+.twohund {
+	width: 200px;
+	font-weight: bold;
+	font-size: 20pt;
+	float:left;
+	text-align: center;
+}

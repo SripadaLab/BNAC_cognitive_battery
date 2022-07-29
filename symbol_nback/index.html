@@ -33,7 +33,7 @@ $( document ).ready(function() {
              display_element: "getDisplayElement",
              fullscreen: true,
              on_trial_finish: function(data){
-               addID('n-back')
+               addID('symbol n-back')
              },
 
              on_finish: function(data){
@@ -61,7 +61,7 @@ $( document ).ready(function() {
                                  document.location = "/next";
                              } else {
                                  // If error, assue local save
-                                 jsPsych.data.localSave('n-back_results.csv', 'csv');
+                                 jsPsych.data.localSave('symbol_n-back_results.csv', 'csv');
                              }
                          }
                      });
