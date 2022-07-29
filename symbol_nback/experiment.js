@@ -290,7 +290,7 @@ for (var d = 0; d < delays.length; d++) {
 			trial_id: "delay_text"
 		},
 		timing_response: 180000,
-		text: '<div class = centerbox><p class = block-text>In these next blocks, you should press the left arrow key when the current letter matches the letter that appeared ' +
+		text: '<div class = centerbox><p class = block-text>In these next blocks, you should press the left arrow key when the current symbol matches the symbol that appeared ' +
 			delay +
 			' trials before. Otherwise press the down arrow key</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 		cont_key: [13]

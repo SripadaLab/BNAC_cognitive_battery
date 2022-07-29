@@ -111,7 +111,7 @@ var instructions_block = {
 		trial_id: "instruction"
 	},
 	pages: [
-		'<div class = centerbox><p class = block-text>In this experiment you will see a sequence of black squares presented one at a time. Your job is to respond by pressing the <strong>left arrow key</strong> when the square matches the position of the square that occured 2 trials before, otherwise you should press the <strong>down arrow key</strong>. </p><br><br><p class=block-text>For example, if you saw the sequence of screens below, you would press <strong>down, down, left, left, down</strong>. THe first box and second box cannot match the box 2 earlier because no box was presented 2 earlier, so you would press <strong>down</strong> for both. The third box matches the first box, so you press <strong>left</strong>. Then the fourth box matches the second box, so you press <strong>left</strong> again. The fifth box does not match the third box, so you press <strong>down</strong></p><br><div style="margin:auto;width:1000px;"><img src="stim1.jpg"><img src="stim2.jpg"><img src="stim1.jpg"><img src="stim2.jpg"><img src="stim3.jpg"></div><div style="margin:auto;width:1000px;"><div class=twohund>down</div><div class=twohund>down</div><div class=twohund>left</div><div class=twohund>left</div><div class=twohund>down</div></div></div>',
+		'<div class = centerbox><p class = block-text>In this experiment you will see a sequence of black squares presented one at a time. Your job is to respond by pressing the <strong>left arrow key</strong> when the square matches the position of the square that occured 2 trials before, otherwise you should press the <strong>down arrow key</strong>. </p><br><br><p class=block-text>For example, if you saw the sequence of screens below, you would press <strong>down, down, left, left, down</strong>. The first box and second box cannot match the box 2 earlier because no box was presented 2 earlier, so you would press <strong>down</strong> for both. The third box matches the first box, so you press <strong>left</strong>. Then the fourth box matches the second box, so you press <strong>left</strong> again. The fifth box does not match the third box, so you press <strong>down</strong></p><br><div style="margin:auto;width:1000px;"><img src="stim1.jpg"><img src="stim2.jpg"><img src="stim1.jpg"><img src="stim2.jpg"><img src="stim3.jpg"></div><div style="margin:auto;width:1000px;"><div class=twohund>down</div><div class=twohund>down</div><div class=twohund>left</div><div class=twohund>left</div><div class=twohund>down</div></div></div>',
 	],
 	allow_keys: false,
 	show_clickable_nav: true,
@@ -290,7 +290,7 @@ for (var d = 0; d < delays.length; d++) {
 			trial_id: "delay_text"
 		},
 		timing_response: 180000,
-		text: '<div class = centerbox><p class = block-text>In these next blocks, you should press the left arrow key when the current letter matches the letter that appeared ' +
+		text: '<div class = centerbox><p class = block-text>In these next blocks, you should press the left arrow key when the current box matches the position of the box that appeared ' +
 			delay +
 			' trials before. Otherwise press the down arrow key</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 		cont_key: [13]
