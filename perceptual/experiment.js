@@ -1,47 +1,23 @@
+/*
+Anti-saccade task
+*/
+
 /* ************************************ */
 /* Define helper functions */
 /* ************************************ */
-function assessPerformance() {
-	/* Function to calculate the "credit_var", which is a boolean used to
-	credit individual experiments in expfactory. */
-	var experiment_data = jsPsych.data.getTrialsOfType('poldrack-single-stim')
-	var missed_count = 0
-	var trial_count = 0
-	var rt_array = []
-	var rt = 0
-	//record choices participants made
-	var choice_counts = {}
-	choice_counts[-1] = 0
-	for (var k = 0; k < choices.length; k++) {
-		choice_counts[choices[k]] = 0
-	}
-	for (var i = 0; i < experiment_data.length; i++) {
-		trial_count += 1
-		rt = experiment_data[i].rt
-		key = experiment_data[i].key_press
-		choice_counts[key] += 1
-		if (rt == -1) {
-			missed_count += 1
-		} else {
-			rt_array.push(rt)
+function evalAttentionChecks() {
+	var check_percent = 1
+	if (run_attention_checks) {
+		var attention_check_trials = jsPsych.data.getTrialsOfType('attention-check')
+		var checks_passed = 0
+		for (var i = 0; i < attention_check_trials.length; i++) {
+			if (attention_check_trials[i].correct === true) {
+				checks_passed += 1
+			}
 		}
+		check_percent = checks_passed / attention_check_trials.length
 	}
-	//calculate average rt
-	var sum = 0
-	for (var j = 0; j < rt_array.length; j++) {
-		sum += rt_array[j]
-	}
-	var avg_rt = sum / rt_array.length || -1
-		//calculate whether response distribution is okay
-	var responses_ok = true
-	Object.keys(choice_counts).forEach(function(key, index) {
-		if (choice_counts[key] > trial_count * 0.85) {
-			responses_ok = false
-		}
-	})
-	var missed_percent = missed_count/trial_count
-	credit_var = (missed_percent < 0.4 && avg_rt > 200 && responses_ok)
-	jsPsych.data.addDataToLastTrial({"credit_var": credit_var})
+	return check_percent
 }
 
 var getInstructFeedback = function() {
@@ -49,347 +25,166 @@ var getInstructFeedback = function() {
 		'</p></div>'
 }
 
-var getTrialLength = function() {
-	return Math.floor(Math.random() * 500) + 1750
-}
-
-getITI = function() {
-	return Math.floor(Math.random() * 500) + 1750
-}
-
-/***********************************************
-/** Modified JGL
-/***********************************************
-/**
- * Make a sinusoidal grating. Creates a texture that later needs 
- * to be used with jglCreateTexture. 
- * Note: 0 deg means horizontal grating. 
- * If you want to ramp the grating with 
- * 2D Gaussian, also call function jglMakeGaussian and average the 
- * results of both functions
- * @param {Number} width: in pixels
- * @param {Number} height: in pixels
- * @param {Number} sf: spatial frequency in number of cycles per degree of visual angle
- * @param {Number} angle: in degrees
- * @param {Number} phase: in degrees 
- * @param {Number} pixPerDeg: pixels per degree of visual angle 
- * @memberof module:jglUtils
- */
-function jglMakeGrating(width, height, sf, angle, phase, pixPerDeg) {
-
-	// Get sf in number of cycles per pixel
-	sfPerPix = sf / pixPerDeg;
-	// Convert angle to radians
-	angleInRad = ((angle + 0) * Math.PI) / 180;
-	// Phase to radians
-	phaseInRad = (phase * Math.PI) * 180;
-
-	// Get x and y coordinates for 2D grating
-	xStep = 2 * Math.PI / width;
-	yStep = 2 * Math.PI / height;
-	x = jglMakeArray(-Math.PI, xStep, Math.PI + 1); // to nudge jglMakeArray to include +PI
-	y = jglMakeArray(-Math.PI, yStep, Math.PI + 1);
-	// To tilt the 2D grating, we need to tilt
-	// x and y coordinates. These are tilting constants.
-	xTilt = Math.cos(angleInRad) * sf * 2 * Math.PI;
-	yTilt = Math.sin(angleInRad) * sf * 2 * Math.PI;
-
-	//What is width and height? Are these in degrees of visual angle or pixels?
-	//See how lines2d and dots work. For example, jglFillRect(x, y, size, color) uses size in pixels
-	//
-
-	//How does jgl compute size in degress of visual angle
-	var ixX, ixY; // x and y indices for arrays
-	var grating = []; // 2D array
-	for (ixX = 0; ixX < x.length; ixX++) {
-		currentY = y[ixY];
-		grating[ixX] = [];
-		for (ixY = 0; ixY < y.length; ixY++) {
-			grating[ixX][ixY] = Math.cos(x[ixX] * xTilt + y[ixY] * yTilt);
-			// Scale to grayscale between 0 and 255
-			grating[ixX][ixY] = Math.round(((grating[ixX][ixY] + 1) / 2) * 255);
-		}
-	}
-	return (grating);
-}
-
-
-
-/**
- * Function to make array starting at low,
- * going to high, stepping by step.
- * Note: the last element is not "high" but high-step
- * @param {Number} low The low bound of the array
- * @param {Number} step the step between two elements of the array
- * @param {Number} high the high bound of the array
- */
-function jglMakeArray(low, step, high) {
-	if (step === undefined) {
-		step = 1;
-	}
-	var size = 0
-	var array = []
-	if (low < high) {
-		size = Math.floor((high - low) / step);
-		array = new Array(size);
-		array[0] = low;
-		for (var i = 1; i < array.length; i++) {
-			array[i] = array[i - 1] + step;
-		}
-		return array;
-	} else if (low > high) {
-		size = Math.floor((low - high) / step);
-		array = new Array(size);
-		array[0] = low;
-		for (var j = 1; j < array.length; j++) {
-			array[j] = array[j - 1] - step;
-		}
-		return array;
-	}
-	return [low];
-}
-
-
-function Canvas(id, back_id) {
-	this.canvas = document.getElementById(id);
-	this.context = this.canvas.getContext("2d"); // main on-screen context
-	this.backCanvas = document.getElementById(back_id);
-	this.backCtx = this.backCanvas.getContext("2d");
-	this.height = $("#canvas").height(); // height of screen
-	this.width = $("#canvas").width(); // width of screen
-	this.canvas.height = 579
-	this.canvas.width = 579
-}
-
-function jglCreateTexture(canvas, array, mask, contrast) {
-
-	/* Note on how imageData's work.
-	 * ImageDatas are returned from createImageData,
-	 * they have an array called data. The data array is
-	 * a 1D array with 4 slots per pixel, R,G,B,Alpha. A
-	 * greyscale texture is created by making all RGB values
-	 * equals and Alpha = 255. The main job of this function
-	 * is to translate the given array into this data array.
-	 */
-	if (!$.isArray(array)) {
-		return;
-	}
-	var image;
-
-	// 2D array passed in
-	image = canvas.backCtx.createImageData(array.length, array.length);
-	var row = 0;
-	var col = 0;
-	for (var i = 0; i < image.data.length; i += 4) {
-		mask_val = mask[row][col]
-		ran_val = Math.random() * 256
-		image.data[i + 0] = ran_val * (1 - contrast) + array[row][col] * contrast;
-		image.data[i + 1] = ran_val * (1 - contrast) + array[row][col] * contrast;
-		image.data[i + 2] = ran_val * (1 - contrast) + array[row][col] * contrast;
-		image.data[i + 3] = mask_val;
-		col++;
-		if (col == array[row].length) {
-			col = 0;
-			row++;
-		}
-	}
-	return image;
-}
-
-/***********************************************
-/** Make Gaussian Mask
-/***********************************************/
-
-function twoDGaussian(amplitude, x0, y0, sigmaX, sigmaY, x, y) {
-	var exponent = -((Math.pow(x - x0, 2) / (2 * Math.pow(sigmaX, 2))) + (Math.pow(y - y0, 2) / (2 *
-		Math.pow(sigmaY, 2))));
-	return amplitude * Math.pow(Math.E, exponent);
-}
-
-function make2dMask(arr, amp, s) {
-	var midX = Math.floor(arr.length / 2)
-	var midY = Math.floor(arr[0].length / 2)
-	var mask = []
-	for (var i = 0; i < arr.length; i++) {
-		var col = []
-		for (var j = 0; j < arr[0].length; j++) {
-			col.push(twoDGaussian(amp * 255, midX, midY, s, s, i, j))
-		}
-		mask.push(col)
-	}
-	return mask
-}
-
-function applyMask(arr, mask) {
-	var masked_arr = []
-	for (var i = 0; i < arr.length; i++) {
-		var col = []
-		for (var j = 0; j < arr[0].length; j++) {
-			col.push(arr[i][j] * mask[i][j])
-		}
-		masked_arr.push(col)
-	}
-	return masked_arr
-}
-
-function makeStim(canvas, backcanvas, angle, contrast) {
-	var jgl_canvas = new Canvas(canvas, backcanvas)
-	var arr = jglMakeGrating(500, 500, 2, angle, 0, 0)
-	var mask = make2dMask(arr, 1, 100)
-	var drawing = jglCreateTexture(jgl_canvas, arr, mask, contrast)
-	jgl_canvas.context.putImageData(drawing, 0, 0)
-}
-
-function getStim() {
-	var angle = Math.random() * 180
-	var sides = jsPsych.randomization.shuffle(['left', 'right'])
-	var stim = '<div class = ' + sides[0] + 'box><canvas id = canvas1></canvas></div>' +
-		'<div class = ' + sides[1] + 'box><canvas id = canvas2></canvas></div>' +
-		'<canvas id = backCanvas1></canvas><canvas id = backCanvas2></canvas>'
-	var display_el = jsPsych.getDisplayElement()
-	display_el.append($('<div>', {
-		html: stim,
-		id: 'jspsych-poldrack-single-stim-stimulus'
-	}));
-	makeStim('canvas1', 'backCanvas1', 0, 0)
-	makeStim('canvas2', 'backCanvas2', angle, contrast)
-	curr_data.angle = angle
-	curr_data.contrast = contrast
-	curr_data.reference_side = sides[0]
-	correct_response = choices[['left', 'right'].indexOf(sides[1])]
-	curr_data.correct_response = correct_response
-}
-
-function getEasyStim() {
-	var angle = Math.random() * 180
-	var sides = jsPsych.randomization.shuffle(['left', 'right'])
-	var stim = '<div class = ' + sides[0] + 'box><canvas id = canvas1></canvas></div>' +
-		'<div class = ' + sides[1] + 'box><canvas id = canvas2></canvas></div>' +
-		'<canvas id = backCanvas1></canvas><canvas id = backCanvas2></canvas>'
-	var display_el = jsPsych.getDisplayElement()
-	display_el.append($('<div>', {
-		html: stim,
-		id: 'jspsych-poldrack-single-stim-stimulus'
-	}));
-	makeStim('canvas1', 'backCanvas1', 0, 0)
-	makeStim('canvas2', 'backCanvas2', angle, 0.2)
-	curr_data.angle = angle
-	curr_data.contrast = contrast
-	correct_response = choices[['left', 'right'].indexOf(sides[1])]
-	curr_data.correct_response = correct_response
-}
-
 var randomDraw = function(lst) {
 	var index = Math.floor(Math.random() * (lst.length))
 	return lst[index]
 }
 
-var post_trial_gap = function() {
-	gap = Math.floor(Math.random() * 500) + 750
-	return gap;
-}
-
-/* Append data */
-var appendData = function(data) {
-	correct = false
-	if (data.key_press == curr_data.correct_response) {
-		correct = true
-	}
-	curr_data.trial_num = current_trial
-	curr_data.correct = correct
-	jsPsych.data.addDataToLastTrial(curr_data)
-	curr_data = {}
-	current_trial = current_trial + 1
-}
-
-/* Append data and progress staircase*/
-var afterTrialUpdate = function(data) {
-	correct = false
-	if (data.key_press == curr_data.correct_response) {
-		correct = true
-	}
-	curr_data.trial_num = current_trial
-	curr_data.correct = correct
-	jsPsych.data.addDataToLastTrial(curr_data)
-	curr_data = {}
-	current_trial = current_trial + 1
-	//2 up 1 down staircase
-	if (data.key_press != -1) {
-		if (correct === false) {
-			contrast += 0.005
-		} else {
-			correct_counter += 1
-			if (correct_counter == 2) {
-				contrast -= 0.005
-				correct_counter = 0
-			}
-		}
-	}
-}
 
 /* ************************************ */
 /* Define experimental variables */
 /* ************************************ */
 // generic task variables
+var run_attention_checks = false
+var attention_check_thresh = 0.65
 var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
-var credit_var = true
 
 // task specific variables
-var practice_len = 10
-var exp_len = 300
-var contrast = 0.1
-var correct_counter = 0
 var current_trial = 0
-var choices = [37, 39]
-var curr_data = {}
-var confidence_choices = [49, 50, 51, 52]
-var catch_trials = [25, 57, 150, 220, 270]
-var confidence_response_area =
-	'<div class = centerbox><div class = fixation>+</div></div><div class = response_div>' +
-	'<button class = response_button id = Confidence_1>1:<br> Not Confident At All</button>' +
-	'<button class = response_button id = Confidence_2>2</button>' +
-	'<button class = response_button id = Confidence_3>3</button>' +
-	'<button class = response_button id = Confidence_4>4:<br> Very Confident</button>'
+var letters = '27'
+var evenstim = '246'
+var oddstim = '357'
+var sides = '12'
+var num_blocks = 1 //
+var num_trials = 8 //per block 40 per block, randomly shuffled equal amounts of odd/even left/right, but actual number randomly drawn on each trial
+var num_practice_trials = 4 //per trial type
+var delays = jsPsych.randomization.shuffle(['F','O','B'])
 
-var confidence_response_area_key =
-	'<div class = centerbox><div class = fixation>+</div></div><div class = response_div>' +
-	'<button class = response_button_key id = Confidence_1>1:<br> Not Confident At All</button>' +
-	'<button class = response_button_key id = Confidence_2>2</button>' +
-	'<button class = response_button_key id = Confidence_3>3</button>' +
-	'<button class = response_button_key id = Confidence_4>4:<br> Very Confident</button>'
 
+var factors = { 
+	freq: ['0.0525','0.0575','0.0675','0.0725'], 
+	orient: ['35','40','50','55'], 
+	bright: ['112','120','136','144']
+}
+var nstimuli = factors.freq.length * factors.orient.length * factors.bright.length;
+var total_trials_per_block = 192;
+var trial_reps_per_block = total_trials_per_block / nstimuli;
+
+var initial_full_designF = jsPsych.randomization.factorial(factors,trial_reps_per_block,true);
+var initial_full_designO = jsPsych.randomization.factorial(factors,trial_reps_per_block,true);
+var initial_full_designB = jsPsych.randomization.factorial(factors,trial_reps_per_block,true);
+
+var ts_full_design = jsPsych.randomization.factorial(factors,num_practice_trials/4,true)
+
+var ts_num_blocks = 4;
+var ts_num_trials = 192;
+
+var ts_list = {
+	stim: [],
+	discrim_type: [],
+	trial_type: []
+}
+
+//generate a list of s/ns 50/50
+//for the s generate a list of 
+
+for (i = 0; i++; i<ts_num_blocks) {
+	//first add first trial for block
+	for (j = 0; j++; j<ts_num_trials) {
+		//look up type of trial, then determine stimulus from 
+	}
+}
+
+//lets try generating 64 non-switch pairs and 64 of each other for each task, then randomize (how?)
+var ok = 0;
+const starttime = Date.now();
+while (ok==0) {
+	var f_stim = jsPsych.randomization.factorial(factors,4,true);
+	var o_stim = jsPsych.randomization.factorial(factors,4,true);
+	var b_stim = jsPsych.randomization.factorial(factors,4,true);
+	var f_arr = jsPsych.randomization.repeat(['FF','O','B'],64);
+	var o_arr = jsPsych.randomization.repeat(['F','OO','B'],64);
+	var b_arr = jsPsych.randomization.repeat(['F','O','BB'],64);
+
+	var arr = f_arr.concat(o_arr).concat(b_arr);
+
+	var order = jsPsych.randomization.shuffleNoRepeats(arr);
+	var order = jsPsych.randomization.shuffle(arr);
+	var final_order = [];
+	for (i = 0; i<order.length; i++) {
+		final_order = final_order.concat(order[i].split(''));
+	}
+
+	//now measure percentages
+	function check_order(order) {
+		
+		var last_trial = '';
+		var count = [
+			[0,0,0],
+			[0,0,0]
+			];
+			
+		for (i=0; i<order.length; i++) {
+			var s = 1;
+			if (order[i]==last_trial) {
+				s=0;
+			}
+			if (order[i]=='F') {
+				count[s][0] = count[s][0]+1;
+			}
+			if (order[i]=='O') {
+				count[s][1] = count[s][1]+1;
+			}
+			if (order[i]=='B') {
+				count[s][2] = count[s][2]+1;
+			}
+			last_trial = order[i];
+		}
+		return count;
+	}
+	var tmp = check_order(final_order);
+	var totals = tmp[0].map(function (num,idx) { return num+tmp[1][idx]});
+	if (Math.round(100*tmp[0][0]/totals[0])==40.0 & Math.round(100*tmp[1][0]/totals[0])==60.0) {
+		if (Math.round(100*tmp[0][1]/totals[1])==40.0 & Math.round(100*tmp[1][1]/totals[1])==60.0) {
+			if (Math.round(100*tmp[0][2]/totals[2])==40.0 & Math.round(100*tmp[1][2]/totals[2])==60.0) {
+				ok=1;
+			}
+		}
+	}
+	//ok=1;
+}
+const endtime = Date.now();
+endtime-starttime
+
+
+var stims = [] //hold stims per block
+var fixtimes = [500,600,700,800,900,1000]
 /* ************************************ */
 /* Set up jsPsych blocks */
 /* ************************************ */
+// Set up attention check node
+var attention_check_block = {
+	type: 'attention-check',
+	data: {
+		trial_id: "attention_check"
+	},
+	timing_response: 180000,
+	response_ends_trial: true,
+	timing_post_trial: 200
+}
+
+var attention_node = {
+	timeline: [attention_check_block],
+	conditional_function: function() {
+		return run_attention_checks
+	}
+}
+
 //Set up post task questionnaire
 var post_task_block = {
    type: 'survey-text',
    data: {
        trial_id: "post task questions"
    },
-   questions: ['<p class = center-block-text style = "font-size: 20px">Please summarize what you were asked to do in this task.</p>',
-              '<p class = center-block-text style = "font-size: 20px">Do you have any comments about this task?</p>'],
-   rows: [15, 15],
-   columns: [60,60]
+   questions: ['<p class = center-block-text style = "font-size: 20px">Please summarize what you were asked to do in this task.</p>'],
+   rows: [15],
+   columns: [60]
 };
 
 /* define static blocks */
-var end_block = {
-	type: 'poldrack-text',
-	data: {
-		trial_id: "end",
-		exp_id: 'perceptual_metacognition'
-	},
-	timing_response: 180000,
-	text: '<div class = centerbox><p class = center-block-text>Thanks for completing this task!</p><p class = center-block-text>Press <strong>enter</strong> to continue.</p></div>',
-	cont_key: [13],
-	timing_post_trial: 0,
-	on_finish: assessPerformance
-};
-
 var feedback_instruct_text =
-	'Welcome to the experiment. This experiment should take about 30 minutes. Press <strong>enter</strong> to begin.'
+	'<div class="block-text">Welcome to the experiment. Press <strong>enter</strong> to begin.</div>'
 var feedback_instruct_block = {
 	type: 'poldrack-text',
 	data: {
@@ -407,7 +202,7 @@ var instructions_block = {
 		trial_id: "instruction"
 	},
 	pages: [
-		'<div class = centerbox><p class = block-text>In this experiment, you will see two patches of random noise. In one of the patches there is a slight grating (a striped pattern). Your task is to indicate whether the left or right stimulus has the grating by using the arrow keys. There is a fixation cross in the middle of the screen. The patches come on the screen for a very short amount of time, so keep your eyes on the cross.</p><p class = block-text>After you make your choice you will be asked to rate how confident you are that you were correct, on a scale from 1 to 4. Press the corresponding number key to indicate your confidence. We will begin with practice after you end the instructions.</p></div>'
+		'<div class = centerbox><p class = block-text>In this task, you will see two empty squares on the right and left sides of a cross in the middle of the screen. Soon after the two squares appear, one of them will be filled with a white flash. Right after the white flash, a number will appear very quickly in one of the squares and will then be covered up by a pattern.</p><p class= block-text>You should press the left arrow button if the number shown is odd (3, 5, or 7) and press the down arrow button if the number shown is even (2, 4, or 6). This task is difficult because the number only appears on the screen for a very short amount of time but try your best to guess whether the number is odd or even based on what you are able to see.</p><p class=block-text>In some of the trials in this task, the number will appear on the same side as the white flash, but in other trials the number will appear on the opposite side. You will be told before each block of trials whether the number will appear on the same side or the opposite side as the white flash.</p></div>',
 	],
 	allow_keys: false,
 	show_clickable_nav: true,
@@ -426,128 +221,349 @@ var instruction_node = {
 		}
 		if (sumInstructTime <= instructTimeThresh * 1000) {
 			feedback_instruct_text =
-				'Read through instructions too quickly.  Please take your time and make sure you understand the instructions.  Press <strong>enter</strong> to continue.'
+				'<div class="block-text">Read through instructions too quickly.  Please take your time and make sure you understand the instructions.  Press <strong>enter</strong> to continue.</div>'
 			return true
 		} else if (sumInstructTime > instructTimeThresh * 1000) {
-			feedback_instruct_text =
-				'Done with instructions. Press <strong>enter</strong> to continue.'
+			feedback_instruct_text = '<div class="block-text">Done with instructions. Press <strong>enter</strong> to continue.</div>'
 			return false
 		}
 	}
 }
 
-var start_test_block = {
+var end_block = {
 	type: 'poldrack-text',
-	data: {
-		trial_id: "end"
-	},
 	timing_response: 180000,
-	text: '<div class = centerbox><p class = center-block-text>We are done with practice. We will now start the test. This will be identical to the practice - your task is to indicate where the grating is by pressing the arrow keys. After you make your choice, rate how confident you are that your response was accurate.</p><p class = center-block-text>Press <strong>enter</strong> to continue.</p></div>',
+	data: {
+		trial_id: "end",
+		exp_id: 'anti_saccade'
+	},
+	text: '<div class = centerbox><p class = center-block-text>Thanks for completing this task!</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 0
 };
 
-var fixation_block = {
+
+var start_practice_block = {
+	type: 'poldrack-text',
+	text: '<div class = centerbox><p class = block-text>Practice is coming up next. Remember, you should press the left arrow key when the number is odd, and the down arrow key when the number is even. </p><p class = block-text>During practice, you will receive feedback about whether you were correct or not. There will be no feedback during the main experiment. Press <strong>enter</strong> to begin.</p></div>',
+	cont_key: [13],
+	data: {
+		trial_id: "instruction"
+	},
+	timing_response: 180000,
+	timing_post_trial: 1000
+};
+
+
+var intertrial_fixation_block = {
 	type: 'poldrack-single-stim',
-	stimulus: '<div class = centerbox><div class = fixation>+</div></div>',
-	timing_stim: 1000,
-	timing_response: 1000,
+	stimulus: '<div class = centerbox><div class = center-text>+</div></div>',
+	is_html: true,
 	choices: 'none',
-	is_html: true,
 	data: {
-		trial_id: 'fixation'
+		trial_id: "fixation"
 	},
-	timing_post_trial: 0
-}
-
-var test_block = {
-	type: 'poldrack-single-stim',
-	stimulus: getStim,
-	timing_stim: 3300,
-	response_ends_trial: true,
-	is_html: true,
-	data: {
-		trial_id: "stim",
-		exp_stage: "test"
-	},
-	choices: [37, 39],
 	timing_post_trial: 0,
-	prompt: '<div class = centerbox><div class = fixation>+</div></div>',
-	on_finish: function(data) {
-		afterTrialUpdate(data)
-	}
+	timing_stim: 350,
+	timing_response: 350
 };
 
-var easy_block = {
-	type: 'poldrack-single-stim',
-	stimulus: getEasyStim,
-	timing_stim: 3300,
-	response_ends_trial: true,
-	is_html: true,
+var audio = new Audio();
+audio.src = "error.mp3";
+audio.loop = false;
+
+function errorDing() {
+	audio.play();
+}
+
+//Set up experiment
+var anti_saccade_experiment = []
+anti_saccade_experiment.push(instruction_node);
+anti_saccade_experiment.push(start_practice_block)
+
+//Setup saccade practice
+
+practice_trials = []
+var practice_block = {
+	type: 'poldrack-text',
+	timing_response: 180000,
 	data: {
-		trial_id: "catch",
-		exp_stage: "test"
+		trial_id: "saccade practice"
 	},
-	choices: [37, 39],
-	timing_post_trial: 0,
-	prompt: '<div class = centerbox><div class = fixation>+</div></div>',
-	on_finish: function(data) {
-		appendData(data)
-	}
+	text: '<div class = centerbox><p class = block-text>In these practice trials, the number will always appear on the <i>same side</i> as the white flash.</p><p class=block-text>Press <strong>enter</strong> to start practice.</p></div>',
+	cont_key: [13],
+	timing_post_trial: 1000
 };
+practice_trials.push(practice_block)
+	
+var full_design = jsPsych.randomization.factorial(factors,num_practice_trials/4,true)
 
-//below are two different response options - either button click or key press
-var confidence_block = {
-	type: 'single-stim-button',
-	stimulus: confidence_response_area,
-	button_class: 'response_button',
-	data: {
-		trial_id: 'confidence_rating',
-		exp_stage: 'test'
-	},
-	timing_stim: 4000,
-	timing_response: 4000,
-	response_ends_trial: true,
-	timing_post_trial: 0
-}
-
-var confidence_key_block = {
-	type: 'poldrack-single-stim',
-	stimulus: confidence_response_area_key,
-	choices: confidence_choices,
-	data: {
-		trial_id: 'confidence_rating',
-		exp_stage: 'test'
-	},
-	is_html: true,
-	timing_stim: 4000,
-	timing_response: 4000,
-	response_ends_trial: true,
-	timing_post_trial: 0,
-	on_finish: function(data) {
-		var index = confidence_choices.indexOf(data.key_press)
-		jsPsych.data.addDataToLastTrial({confidence: 'confidence_' + (index+1)})
-	}
-}
-
-/* create experiment definition array */
-var perceptual_metacognition_experiment = [];
-perceptual_metacognition_experiment.push(instruction_node);
-
-for (var i = 0; i < practice_len; i++) {
-	perceptual_metacognition_experiment.push(fixation_block);
-	perceptual_metacognition_experiment.push(easy_block);
-	perceptual_metacognition_experiment.push(confidence_key_block);
-}
-perceptual_metacognition_experiment.push(start_test_block)
-for (var i = 0; i < exp_len; i++) {
-	perceptual_metacognition_experiment.push(fixation_block);
-	if (jQuery.inArray(i,catch_trials) !== -1) {
-		perceptual_metacognition_experiment.push(easy_block)
+for (var i = 0; i < (num_practice_trials); i++) {
+	side = full_design.side[i]
+	even = full_design.even[i]
+	var stim = ''
+	if (even=='e') {
+		stim = randomDraw(evenstim)
 	} else {
-		perceptual_metacognition_experiment.push(test_block);
+		stim = randomDraw(oddstim)
 	}
-	perceptual_metacognition_experiment.push(confidence_key_block);
+	stims.push(stim)
+	target = stim
+	if (stim%2 == 1) { 
+		correct_response = 37
+	} else {
+		correct_response = 40
+	}
+
+	delay=1
+	//var side = randomDraw(sides)
+	var cuetextl = ''
+	var cuetextr = ''
+	if (side=='l') {
+		cuetextl = '<div class="white-outer g1"></div>'
+		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+	} else {
+		cuetextr = '<div class="white-outer g3"></div>'
+		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+	}
+	
+	var fixtime = randomDraw(fixtimes)
+	var fixation_block = {
+			type: 'poldrack-single-stim',
+			is_html: true,
+			stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="black"><div class="mask"></div></div></div></div></div>',
+			choices: 'none',
+			data: {
+				trial_id: "pre-trial fixation"
+			},
+			timing_stim: fixtime,
+			timing_response: fixtime,
+			timing_post_trial: 0
+	};
+	var cue_block = {
+			type: 'poldrack-single-stim',
+			is_html: true,
+			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+			choices: 'none',
+			data: {
+				trial_id: "cue"
+			},
+			timing_stim: 400,
+			timing_response: 400,
+			timing_post_trial: 0
+	};
+	if (side=='l' & delay==1) {
+		cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+	} else if(side=='r' & delay==1) {
+		cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+	} else if(side=='l' & delay==2) {
+		cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+	} else if(side=='r' & delay==2) {
+		cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+	}
+	var stim_block = {
+			type: 'poldrack-single-stim',
+			is_html: true,
+			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+			data: {
+				trial_id: "number",
+				exp_stage: "",
+				stim: stim,
+				target: target,
+				correct_response: correct_response
+			},
+			choices: [37,40],
+			key_answer: correct_response,
+			timing_stim: 100,
+			timing_response: 100,
+			timing_post_trial: 0
+	};
+	//randomly generate mask
+	var random1 = Array(50).fill(1);
+	var random2 = Array(50).fill(2);
+	var random = random1.concat(random2);
+	var shuffled = random.map(value => ({ value, sort: Math.random()})).sort((a,b) => a.sort-b.sort).map(({ value })=> value)
+	var gridtext = '';
+	for (var s = 0; s<100; s++) {
+		if (shuffled[s]==1) {
+			gridtext = gridtext + '<div class="b">&nbsp;</div>';
+		} else {
+			gridtext = gridtext + '<div class="w">&nbsp;</div>';
+		}
+	}
+
+	if ((side=='l' & delay==1) | (side=='r' & delay==2)) {
+		cuetextl = '<div class="white-outer g1"><div class="mask">' + gridtext + '</div></div>'
+		cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+	} else if ((side=='r' & delay==1) | (side=='l' & delay==2)){
+		cuetextr = '<div class="white-outer g3"><div class="mask">' + gridtext + '</div></div>'
+		cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+	}
+	var mask_block = {
+			type: 'poldrack-categorize',
+			is_html: true,
+			//stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="mask">' + gridtext + '</div></div></div></div>',
+			correct_text: '<div class = centerbox><div style="color:green;font-size:60px"; class = block-text>Correct!</div></div>',
+			incorrect_text: '<div class = centerbox><div style="color:red;font-size:60px"; class = block-text>Incorrect</div></div><script type="text/javascript">errorDing()</script>',
+			timeout_message: '<div class = centerbox><div style="font-size:60px" class = block-text>Respond Faster!</div></div>',
+			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+			timing_feedback_duration: 500,
+			show_stim_with_feedback: false,
+			data: {
+				trial_id: "mask",
+				exp_stage: "",
+				stim: stim,
+				target: target,
+				correct_response: correct_response
+			},
+			choices: [37,40],
+			key_answer: correct_response,
+			response_ends_trial: true,
+			timing_stim: 3000,
+			timing_response: 3000,
+			timing_post_trial: 0				
+	};
+	
+	practice_trials.push(fixation_block)
+	practice_trials.push(cue_block)
+	practice_trials.push(stim_block)
+	practice_trials.push(mask_block)
+	practice_trials.push(intertrial_fixation_block)
 }
-perceptual_metacognition_experiment.push(post_task_block)
-perceptual_metacognition_experiment.push(end_block);
+anti_saccade_experiment = anti_saccade_experiment.concat(practice_trials)
+
+
+
+	
+for (var d = 0; d < delays.length; d++) {
+	var delay = delays[d]
+	var sidetext = "error"
+	var block_label = "error"
+	var full_design = "error"
+	if (delay=='F') {
+		sidetext="frequency"
+		block_label="frequency block"
+		full_design = initial_full_designF
+	} else if (delay=='O') {
+		sidetext="orientation"
+		block_label="orientation block"
+		full_design = initial_full_designO
+	} else {
+		sidetext="brightness"
+		block_label="brightness block"
+		full_design = initial_full_designB
+	}
+	
+	var start_delay_block = {
+		type: 'poldrack-text',
+		data: {
+			trial_id: block_label
+		},
+		timing_response: 180000,
+		text: '<div class = centerbox><p class = block-text>For the trials in this block, the number will always appear on the <i>' + sidetext + ' side</i> as the white flash.</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
+		cont_key: [13]
+	};
+	anti_saccade_experiment.push(start_delay_block)
+	for (var b = 0; b < num_blocks; b++) {
+			
+		var target = ''
+		stims = []
+		for (var i = 0; i < num_trials; i++) {
+			side = full_design.side[i]
+			even = full_design.even[i]
+			var stim = ''
+			if (even=='e') {
+				stim = randomDraw(evenstim)
+			} else {
+				stim = randomDraw(oddstim)
+			}
+			//var stim = randomDraw(letters)
+			stims.push(stim)
+			target=stim
+			if (stim%2 == 1) { 
+				correct_response = 37
+			} else {
+				correct_response = 40
+			}
+			//var side = randomDraw(sides)
+			var cuetextl = ''
+			var cuetextr = ''
+			if (side=='l') {
+				cuetextl = '<div class="white-outer g1"></div>'
+				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+			} else {
+				cuetextr = '<div class="white-outer g3"></div>'
+				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+			}
+			
+			var stimtime = full_design.time[i];
+			
+			var fixtime = randomDraw(fixtimes)
+			var fixation_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="black"><div class="mask"></div></div></div></div></div>',
+					choices: 'none',
+					data: {
+						trial_id: "pre-trial fixation"
+					},
+					timing_stim: fixtime,
+					timing_response: fixtime,
+					timing_post_trial: 0
+			};
+			var cue_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+					choices: 'none',
+					data: {
+						trial_id: "cue"
+					},
+					timing_stim: 400,
+					timing_response: 400,
+					timing_post_trial: 0
+			};
+			if (side=='l' & delay==1) {
+				cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+			} else if(side=='r' & delay==1) {
+				cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+			} else if(side=='l' & delay==2) {
+				cuetextr = '<div class="white-outer g3"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+				cuetextl = '<div class="white-outer g1"><div class="black"></div></div>'
+			} else if(side=='r' & delay==2) {
+				cuetextl = '<div class="white-outer g1"><div class="black"><div class="center-div-text">'+stim+'</div></div></div>'
+				cuetextr = '<div class="white-outer g3"><div class="black"></div></div>'
+			}
+			var stim_block = {
+					type: 'poldrack-single-stim',
+					is_html: true,
+					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
+					data: {
+						trial_id: "number",
+						exp_stage: "",
+						stim: stim,
+						target: target,
+						correct_response: correct_response,
+					},
+					choices: [37,40],
+					key_answer: correct_response,
+					timing_stim: stimtime,
+					timing_response: stimtime,
+					timing_post_trial: 0
+			};
+						
+			anti_saccade_experiment.push(fixation_block)
+			anti_saccade_experiment.push(cue_block)
+			anti_saccade_experiment.push(stim_block)
+			anti_saccade_experiment.push(intertrial_fixation_block)
+		}
+	}
+}
+anti_saccade_experiment.push(post_task_block)
+anti_saccade_experiment.push(end_block)

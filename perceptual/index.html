@@ -2,7 +2,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name="robots" content="noindex">
-    <title>The Experiment Factory perceptual-metacognition</title>
+    <title>The Experiment Factory Perceptual</title>
     
 <link rel='stylesheet' type='text/css' href='jspsych.css'>
 <link rel='stylesheet' type='text/css' href='default_style.css'>
@@ -15,6 +15,7 @@
 <script src='js/jspsych/jspsych.js'></script>
 <script src='js/jspsych/plugins/jspsych-text.js'></script>
 <script src='js/jspsych/poldrack_plugins/jspsych-poldrack-text.js'></script>
+<script src='js/jspsych/poldrack_plugins/jspsych-poldrack-categorize.js'></script>
 <script src='js/jspsych/poldrack_plugins/jspsych-poldrack-instructions.js'></script>
 <script src='js/jspsych/plugins/jspsych-call-function.js'></script>
 <script src='js/jspsych/poldrack_plugins/jspsych-attention-check.js'></script>
@@ -28,11 +29,11 @@
 $( document ).ready(function() {
 
     jsPsych.init({
-             timeline: perceptual_metacognition_experiment,
+             timeline: anti_saccade_experiment,
              display_element: "getDisplayElement",
              fullscreen: true,
              on_trial_finish: function(data){
-               addID('perceptual-metacognition')
+               addID('perceptual')
              },
 
              on_finish: function(data){
@@ -60,7 +61,7 @@ $( document ).ready(function() {
                                  document.location = "/next";
                              } else {
                                  // If error, assue local save
-                                 jsPsych.data.localSave('perceptual-metacognition_results.csv', 'csv');
+                                 jsPsych.data.localSave('perceptual_results.csv', 'csv');
                              }
                          }
                      });

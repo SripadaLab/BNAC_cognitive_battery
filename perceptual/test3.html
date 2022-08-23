@@ -1,0 +1,83 @@
+<!DOCTYPE html><html class=''>
+<head>
+    <meta charset='UTF-8'>
+    <meta name="robots" content="noindex">
+    <title>The Experiment Factory perceptual-metacognition</title>
+    
+<link rel='stylesheet' type='text/css' href='jspsych.css'>
+<link rel='stylesheet' type='text/css' href='default_style.css'>
+<link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+
+<body>
+<div style="background-color:#808080;width:1500px;height:1000px;text-align:center;">
+<canvas id=canvas1 style="padding: 0; margin: auto; display: block; width: 600px; height: 600px; position:absolute; top: 0; bottom: 0; left: 0; right: 0;"></canvas>
+<canvas id=backCanvas1></canvas>
+
+</div>
+<script src='js/jquery.min.js'></script>
+<script src="js/math.min.js"></script>
+<script src='js/jspsych/jspsych.js'></script>
+<script src='js/jspsych/plugins/jspsych-text.js'></script>
+<script src='js/jspsych/poldrack_plugins/jspsych-poldrack-text.js'></script>
+<script src='js/jspsych/poldrack_plugins/jspsych-poldrack-instructions.js'></script>
+<script src='js/jspsych/plugins/jspsych-call-function.js'></script>
+<script src='js/jspsych/poldrack_plugins/jspsych-attention-check.js'></script>
+<script src='js/jspsych/poldrack_plugins/jspsych-poldrack-single-stim.js'></script>
+<script src='js/jspsych/plugins/jspsych-survey-text.js'></script>
+<script src='js/jspsych/poldrack_plugins/jspsych-single-stim-button.js'></script>
+<script src='js/jspsych/poldrack_plugins/poldrack_utils.js'></script>
+<script src='experiment3.js'></script>
+<script src='FileSaver.js'></script>
+
+<script>
+//var freq = jglMakeArray(1.25, 0.25, 4.00);
+//var orient = jglMakeArray(5,8,93);
+function saveStim() {
+	var freq = parseFloat(document.getElementById('frequency').value);
+	var orient = parseFloat(document.getElementById('orientation').value);
+	var ppd = parseFloat(document.getElementById('ppd').value);
+	var size = parseFloat(document.getElementById('size').value);
+	var sigma = parseFloat(document.getElementById('sigma').value);
+	
+	makeStim('canvas1','backCanvas1',orient,1,freq,sigma,ppd,size);
+	var canvas = document.getElementById("canvas1");
+	var filename = "img_f" + freq.toString() + "_a" + orient.toString() + ".png";
+	canvas.toBlob(function(blob) {
+		saveAs(blob,filename);
+	});	
+}
+
+/*for (var i = 1; i < freq.length; i++) {
+		makeStim('canvas1','backCanvas1',45,1,freq[i],75);
+		var canvas = document.getElementById("canvas1");
+		var filename = "img_f" + freq[i].toString() + "_a45.png";
+		canvas.toBlob(function(blob) {
+			saveAs(blob,filename);
+		});	
+}
+
+for (var i = 1; i < orient.length; i++) {
+		makeStim('canvas1','backCanvas1',orient[i],1,2.5,75);
+		var canvas = document.getElementById("canvas1");
+		var filename = "img_f2.5_a" + orient[i].toString() + ".png";
+		canvas.toBlob(function(blob) {
+			saveAs(blob,filename);
+		});	
+}*/
+//makeStim('canvas1','backCanvas1',45,1,2.75,75)
+//var canvas = document.getElementById("canvas1");
+//canvas.toBlob(function(blob) {
+//	saveAs(blob,"pretty_image.png");
+//});
+
+</script>
+<input type="text" id="frequency" name="frequency" value=".05" />
+<input type="text" id="orientation" name="orientation" value="45" />
+<input type="text" id="ppd" name="ppd" value="40" />
+<input type="text" id="sigma" name="sigma" value="75" />
+<input type="text" id="size" name="size" value="800" />
+<input type="button" value="click" onClick="saveStim();"/>
+
+</body>
+</html>
