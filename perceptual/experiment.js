@@ -334,16 +334,33 @@ for (var d = 0; d < blocks.length; d++) {
 	perceptual_experiment.push(start_block)
 			
 	var target = '';
+	
+	
+	//freq: ['0.0525','0.0575','0.0675','0.0725'], 
+	//orient: ['35','40','50','55'], 
+	//bright: ['112','120','136','144']
+	
 	for (var i = 0; i < total_trials_per_block; i++) {
 		var stim = 'f' + full_design.freq[i] + '_a' + full_design.orient[i] + '_b' + full_design.bright[i] + '.png';
 		
+		target = 40;
+		correct_response = 40;
 		
-		//var stim = randomDraw(letters)
-		target=stim
-		if (stim%2 == 1) { 
-			correct_response = 37
-		} else {
-			correct_response = 40
+		if (block=='F') {
+			if (full_design.freq[i] == '0.0675' | full_design.freq[i] == '0.0725') {
+				target=37;
+				correct_response=37;
+			}			
+		} else if (block=='O') {
+			if (full_design.orient[i] == '50' | full_design.orient[i] == '55') {
+				target=37;
+				correct_response=37;
+			}	
+		} else if (block=='B') {
+			if (full_design.bright[i] == '112' | full_design.bright[i] == '120') {
+				target=37;
+				correct_response=37;
+			}	
 		}
 
 		var cue_block = {
