@@ -356,8 +356,8 @@ for (var d = 0; d < blocks.length; d++) {
 				target=37;
 				correct_response=37;
 			}	
+			if (full_design.bright[i] == '136' | full_design.bright[i] == '144') {
 		} else if (block=='B') {
-			if (full_design.bright[i] == '112' | full_design.bright[i] == '120') {
 				target=37;
 				correct_response=37;
 			}	
