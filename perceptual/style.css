@@ -1,87 +1,59 @@
 .display_stage {
     position: fixed;
-    background: #900;
+    background: #000;
     left: 5vw;
     top: 2vh;
     height: 94vh;
     width: 90vw;
-    background-color: #808080;
-    border-radius: 15px;
-    border: 1vh solid #D0D0D0;
+    background-color: #000000;
+    //border-radius: 15px;
+    //border: 1vh solid #D0D0D0;
     z-index: 0;
+	padding: 30px 30px 30px 30px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-#canvas1, #canvas2, #backCanvas1,#backCanvas2 {
-  display: block;
-    margin: 0 auto;
-}
-
-.leftbox {
-  width: 600px;
-  height: 600px;
+.centerbox {
+  padding: 200px;
   position:absolute;
   top:50%;
   left:50%;
   margin-right:-50%;
-  transform: translate(-110%,-50%);
+  transform: translate(-50%,-50%);
 }
-
-.rightbox {
-  width: 600px;
-  height: 600px;
+.center-text {
+  color: white;
+  font-size: 100px;
   position:absolute;
   top:50%;
   left:50%;
   margin-right:-50%;
-  transform: translate(10%,-50%);
+  transform: translate(-50%,-50%);
 }
 
-.response_div {
-  width: 40w;
-  height: 8vw;
-  position:absolute;
-  top:50%;
-  left:50%;
-  margin-right:-50%;
-  transform: translate(-50%,140%);
+.center-div-text {
+  width: 100px;
+  height: 100px;
+  color: white;
+  font-size: 100px;
+  text-align: center;
+  line-height: 90px;
 }
 
-.response_button {
-  width: 10vw;
-  height: 10vw;
-  background: #505050;
-  margin: 1vw;
-  position: relative;
-  color: #fff;
-  border-radius:15px;
-  font-size: 24px;
-  vertical-align:top;
+.F {
+	color: #00FF00;
 }
 
-.response_button:hover {
-  color: red;
+.O {
+	color: #0000FF;
 }
 
-.response_button:active {
-  background-color: black;
-}
-
-.response_button_key {
-  width: 10vw;
-  height: 10vw;
-  background: #505050;
-  margin: 1vw;
-  position: relative;
-  color: #fff;
-  border-radius:15px;
-  font-size: 24px;
-  vertical-align:top;
+.B {
+	color: #FF0000;
 }
 
 .display_stage > div, .display_stage > p {
   color: white;
-}
-
-.fixation {
-  color: grey;
 }

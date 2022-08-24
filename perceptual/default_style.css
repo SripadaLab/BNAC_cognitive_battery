@@ -22,7 +22,7 @@ body {
 .display_stage_background {
   height: 100vh;
   width: 100vw;
-  background-color: #707070;
+  background-color: black;
   z-index: -1;
 }
 
@@ -32,9 +32,10 @@ body {
   top: 2vh;
   height: 94vh;
   width: 90vw;
-  background-color: white;
-  box-shadow: 1px 1px 1px #999;
-  border-radius: 15px;
+  //background-color: white;
+  background-color: #000000;
+  //box-shadow: 1px 1px 1px #999;
+  //border-radius: 15px;
   z-index: 0;
   padding: 30px 30px 30px 30px;
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -43,16 +44,6 @@ body {
   overflow: auto;
 }
 
-
-.centerbox {
-  width: 50vw;
-  height: 60vh;
-  position:absolute;
-  top:50%;
-  left:50%;
-  margin-right:-50%;
-  transform: translate(-50%,-50%);
-}
 
 
 /* Text based classes */
@@ -65,6 +56,7 @@ body {
   margin-bottom: 1em;
   font-size: 24px;
   line-height: 120%;
+  color: white;
 }
 
 /* As above but centered instead of justified. Good for instructions with few lines */
