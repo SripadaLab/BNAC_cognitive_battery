@@ -209,7 +209,7 @@ var instructions_block = {
 		trial_id: "instruction"
 	},
 	pages: [
-		'<div class = centerbox><p class = block-text>In this task, you will be shown stimuli consisting of black and white lines that fade into a grey background. Your job is to categorize each stimulus depending on the cue you have been presented with before the stimulus. There will be several different types of categorization method. Each will be presented with instructions and a practice before starting that task.</p><p class=center-block-text>Press <strong>enter</strong> to continue.</div>',
+		'<div class = centerbox><p class = block-text>In this task, you will be shown stimuli consisting of black and white lines that fade into a grey background. Your job is to categorize each stimulus depending on the cue you have been presented with before the stimulus. There will be several different types of categorization method. Each will be presented with instructions and a practice before starting that task.</p></div>',
 	],
 	allow_keys: false,
 	show_clickable_nav: true,
