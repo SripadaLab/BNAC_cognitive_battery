@@ -47,9 +47,9 @@ var num_practice_trials = 4 //per trial type
 var blocks = jsPsych.randomization.shuffle(['F','O','B'])
 
 var factors = { 
-	freq: ['0.0665','0.0645','0.0605','0.0585'], 
+	freq: ['0.0655','0.0640','0.0610','0.0595'], 
 	orient: ['48','46.5','43.5','42'], 
-	bright: ['156','142','114','100']
+	bright: ['148','138','118','108']
 }
 var nstimuli = factors.freq.length * factors.orient.length * factors.bright.length;
 var total_trials_per_block = 192;
