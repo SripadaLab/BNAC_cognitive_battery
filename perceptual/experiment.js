@@ -47,9 +47,9 @@ var num_practice_trials = 4 //per trial type
 var blocks = jsPsych.randomization.shuffle(['F','O','B'])
 
 var factors = { 
-	freq: ['0.0545','0.0585','0.0665','0.0705'], 
-	orient: ['39','42','48','51'], 
-	bright: ['116','122','134','140']
+	freq: ['0.0665','0.0645','0.0605','0.0585'], 
+	orient: ['48','46.5','43.5','42'], 
+	bright: ['156','142','114','100']
 }
 var nstimuli = factors.freq.length * factors.orient.length * factors.bright.length;
 var total_trials_per_block = 192;
@@ -327,17 +327,17 @@ function practiceTrials(block) {
 	var correct_response = 40;
 	
 	if (block=='F') {
-		if (freq == '0.0665' | freq == '0.0705') {
+		if (freq == factors.freq[0] | freq == factors.freq[1]) {
 			target=37;
 			correct_response=37;
 		}			
 	} else if (block=='O') {
-		if (orient == '48' | orient == '51') {
+		if (orient == factors.orient[0] | orient == factors.orient[1]) {
 			target=37;
 			correct_response=37;
 		}	
 	} else if (block=='B') {
-		if (bright == '134' | bright == '140') {
+		if (bright == factors.bright[0] | bright == factors.bright[1]) {
 			target=37;
 			correct_response=37;
 		}	
@@ -398,7 +398,7 @@ var b_task_instructions_1 = {
 	timing_post_trial: 1000
 };
 
-var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b140.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b' + factors.bright[0] + '.png';
 var b_example_1_1 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -411,7 +411,7 @@ var b_example_1_1 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b134.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b' + factors.bright[1] + '.png';
 var b_example_1_2 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -424,7 +424,7 @@ var b_example_1_2 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b140.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b' + factors.bright[0] + '.png';
 var b_example_1_3 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -449,7 +449,7 @@ var b_task_instructions_2 = {
 	timing_post_trial: 1000
 };
 
-var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b116.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b' + factors.bright[3] + '.png';
 var b_example_2_1 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -462,7 +462,7 @@ var b_example_2_1 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b122.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b' + factors.bright[2] + '.png';
 var b_example_2_2 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -475,7 +475,7 @@ var b_example_2_2 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b116.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + randomDraw(factors.orient) + '_b' + factors.bright[3] + '.png';
 var b_example_2_3 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -550,7 +550,7 @@ var o_task_instructions_1 = {
 	timing_post_trial: 1000
 };
 
-var example_stim = 'f' + randomDraw(factors.freq) + '_a51' + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + factors.orient[0] + '_b' + randomDraw(factors.bright) + '.png';
 var o_example_1_1 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -563,7 +563,7 @@ var o_example_1_1 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a48' + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + factors.orient[1] + '_b' + randomDraw(factors.bright) + '.png';
 var o_example_1_2 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -576,7 +576,7 @@ var o_example_1_2 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a51' + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + factors.orient[0] + '_b' + randomDraw(factors.bright) + '.png';
 var o_example_1_3 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -601,7 +601,7 @@ var o_task_instructions_2 = {
 	timing_post_trial: 1000
 };
 
-var example_stim = 'f' + randomDraw(factors.freq) + '_a39' + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + factors.orient[3] + '_b' + randomDraw(factors.bright) + '.png';
 var o_example_2_1 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -614,7 +614,7 @@ var o_example_2_1 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a42' + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + factors.orient[2] + '_b' + randomDraw(factors.bright) + '.png';
 var o_example_2_2 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -627,7 +627,7 @@ var o_example_2_2 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f' + randomDraw(factors.freq) + '_a39' + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + randomDraw(factors.freq) + '_a' + factors.orient[3] + '_b' + randomDraw(factors.bright) + '.png';
 var o_example_2_3 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -705,7 +705,7 @@ var f_task_instructions_1 = {
 	timing_post_trial: 1000
 };
 
-var example_stim = 'f0.0705' + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + factors.freq[0] + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
 var f_example_1_1 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -718,7 +718,7 @@ var f_example_1_1 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f0.0665' + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + factors.freq[1] + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
 var f_example_1_2 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -731,7 +731,7 @@ var f_example_1_2 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f0.0705' + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + factors.freq[0] + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
 var f_example_1_3 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -756,7 +756,7 @@ var f_task_instructions_2 = {
 	timing_post_trial: 1000
 };
 
-var example_stim = 'f0.0545' + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + factors.freq[3] + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
 var f_example_2_1 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -769,7 +769,7 @@ var f_example_2_1 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f0.0585' + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + factors.freq[2] + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
 var f_example_2_2 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -782,7 +782,7 @@ var f_example_2_2 = {
 	timing_stim: 2000,
 	timing_response: 2000	
 };
-var example_stim = 'f0.0545' + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
+var example_stim = 'f' + factors.freq[3] + '_a' + randomDraw(factors.orient) + '_b' + randomDraw(factors.bright) + '.png';
 var f_example_2_3 = {
 	type: 'poldrack-single-stim',
 	stimulus: '<div class=centerbox><div class=img-container><img src=stim/' + example_stim + '></div></div>',
@@ -923,17 +923,17 @@ for (var d = 0; d < blocks.length; d++) {
 		correct_response = 40;
 		
 		if (block=='F') {
-			if (full_design.freq[i] == '0.0665' | full_design.freq[i] == '0.0705') {
+			if (full_design.freq[i] == factors.freq[0] | full_design.freq[i] == factors.freq[1]) {
 				target=37;
 				correct_response=37;
 			}			
 		} else if (block=='O') {
-			if (full_design.orient[i] == '48' | full_design.orient[i] == '51') {
+			if (full_design.orient[i] == factors.orient[0] | full_design.orient[i] == factors.orient[1]) {
 				target=37;
 				correct_response=37;
 			}	
 		} else if (block=='B') {
-			if (full_design.bright[i] == '134' | full_design.bright[i] == '140') {
+			if (full_design.bright[i] == factors.bright[0] | full_design.bright[i] == factors.bright[1]) {
 				target=37;
 				correct_response=37;
 			}	
@@ -1056,17 +1056,17 @@ for (j = 0; j<final_order.length; j++) {
 	correct_response = 40;
 	
 	if (block=='F') {
-		if (full_design.freq[i] == '0.0665' | full_design.freq[i] == '0.0705') {
+		if (full_design.freq[i] == factors.freq[0] | full_design.freq[i] == factors.freq[1]) {
 			target=37;
 			correct_response=37;
 		}			
 	} else if (block=='O') {
-		if (full_design.orient[i] == '48' | full_design.orient[i] == '51') {
+		if (full_design.orient[i] == factors.orient[0] | full_design.orient[i] == factors.orient[1]) {
 			target=37;
 			correct_response=37;
 		}	
 	} else if (block=='B') {
-		if (full_design.bright[i] == '134' | full_design.bright[i] == '140') {
+		if (full_design.bright[i] == factors.bright[0] | full_design.bright[i] == factors.bright[1]) {
 			target=37;
 			correct_response=37;
 		}	
