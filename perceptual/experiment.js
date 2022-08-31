@@ -49,7 +49,7 @@ var blocks = jsPsych.randomization.shuffle(['F','O','B'])
 var factors = { 
 	freq: ['0.0655','0.0640','0.0610','0.0595'], 
 	orient: ['48','46.5','43.5','42'], 
-	bright: ['148','138','118','108']
+	bright: ['144','136','120','112']
 }
 var nstimuli = factors.freq.length * factors.orient.length * factors.bright.length;
 var total_trials_per_block = 192;
