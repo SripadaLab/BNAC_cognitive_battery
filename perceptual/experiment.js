@@ -200,7 +200,7 @@ var feedback_instruct_block = {
 	cont_key: [13],
 	text: getInstructFeedback,
 	timing_post_trial: 0,
-	timing_response: 180000
+	//timing_response: 180000
 };
 /// This ensures that the subject does not read through the instructions too quickly.  If they do it too quickly, then we will go over the loop again.
 var instructions_block = {
@@ -239,7 +239,7 @@ var instruction_node = {
 
 var end_block = {
 	type: 'poldrack-text',
-	timing_response: 180000,
+	//timing_response: 180000,
 	data: {
 		trial_id: "end",
 		exp_id: 'perceptual'
@@ -263,12 +263,12 @@ var start_practice_block = {
 
 var interblock_rest = {
 	type: 'poldrack-text',
-	text: '<div class=centerbox><p class=center-block-text>Take a short break.</p><p>Press <strong>enter</strong> to continue.</p></div>',
+	text: '<div class=centerbox><p class=center-block-text>Take a short break.</p><p class=center-block-text>Press <strong>enter</strong> to continue.</p></div>',
 	cont_key: [13],
 	data: {
 		trial_id: "interblock rest"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -394,7 +394,7 @@ var b_task_instructions_1 = {
 	data: {
 		trial_id: "brightness task instructions 1"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -445,7 +445,7 @@ var b_task_instructions_2 = {
 	data: {
 		trial_id: "brightness task instructions 2"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -496,7 +496,7 @@ var b_task_instructions_3 = {
 	data: {
 		trial_id: "brightness task instructions 3"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -507,7 +507,7 @@ var b_task_instructions_4 = {
 	data: {
 		trial_id: "brightness task instructions 4"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -546,7 +546,7 @@ var o_task_instructions_1 = {
 	data: {
 		trial_id: "orientation task instructions 1"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -597,7 +597,7 @@ var o_task_instructions_2 = {
 	data: {
 		trial_id: "orientation task instructions 2"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -648,7 +648,7 @@ var o_task_instructions_3 = {
 	data: {
 		trial_id: "orientation task instructions 3"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -659,7 +659,7 @@ var o_task_instructions_4 = {
 	data: {
 		trial_id: "orientation task instructions 4"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -701,7 +701,7 @@ var f_task_instructions_1 = {
 	data: {
 		trial_id: "frequency task instructions 1"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -752,7 +752,7 @@ var f_task_instructions_2 = {
 	data: {
 		trial_id: "frequency task instructions 2"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -803,7 +803,7 @@ var f_task_instructions_3 = {
 	data: {
 		trial_id: "frequency task instructions 3"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -814,7 +814,7 @@ var f_task_instructions_4 = {
 	data: {
 		trial_id: "frequency task instructions 4"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -991,7 +991,7 @@ var ts_task_instructions_1 = {
 	data: {
 		trial_id: "switching instructions 1"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -1002,7 +1002,7 @@ var ts_task_instructions_2 = {
 	data: {
 		trial_id: "switching instructions 1"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
