@@ -62,9 +62,13 @@ var initial_full_designB = jsPsych.randomization.factorial(factors,trial_reps_pe
 var ts_num_blocks = 4;
 var ts_num_trials = 192;
 
-var ts_F = jsPsych.randomization.factorial(factors,ts_num_blocks,true);
-var ts_O = jsPsych.randomization.factorial(factors,ts_num_blocks,true);
-var ts_B = jsPsych.randomization.factorial(factors,ts_num_blocks,true);
+var ts_Fs = jsPsych.randomization.factorial(factors,ts_num_blocks/2,true);
+var ts_Os = jsPsych.randomization.factorial(factors,ts_num_blocks/2,true);
+var ts_Bs = jsPsych.randomization.factorial(factors,ts_num_blocks/2,true);
+
+var ts_Fn = jsPsych.randomization.factorial(factors,ts_num_blocks/2,true);
+var ts_On = jsPsych.randomization.factorial(factors,ts_num_blocks/2,true);
+var ts_Bn = jsPsych.randomization.factorial(factors,ts_num_blocks/2,true);
 
 //lets try generating 64 non-switch pairs and 64 of each other for each task, then randomize
 //now measure percentages
@@ -1009,9 +1013,12 @@ var ts_task_instructions_2 = {
 perceptual_experiment = perceptual_experiment.concat(ts_task_instructions_1);
 perceptual_experiment = perceptual_experiment.concat(ts_task_instructions_2);
 
-var f_idx = 0;
-var o_idx = 0;
-var b_idx = 0;
+var f_idxs = 0;
+var o_idxs = 0;
+var b_idxs = 0;
+var f_idxn = 0;
+var o_idxn = 0;
+var b_idxn = 0;
 
 for (j = 0; j<final_order.length; j++) {
 	var block = final_order[j];
@@ -1025,21 +1032,39 @@ for (j = 0; j<final_order.length; j++) {
 	if (block=='F') {
 		practice_text="frequency";
 		prompt_text = '<p class=F>MANY or FEW?</p>';
-		i = f_idx;
-		full_design = ts_F;
-		f_idx++;
+		if (switch_order[j]=="switch") {
+			i = f_idxs;
+			full_design = ts_Fs;
+			f_idxs++;
+		} else {
+			i = f_idxn;
+			full_design = ts_Fn;
+			f_idxn++;
+		}
 	} else if (block=='O') {
 		practice_text="orientation";
 		prompt_text = '<p class=O>STEEP or SHALLOW?</p>';
-		i = o_idx;
-		full_design = ts_O;
-		o_idx++;
+		if (switch_order[j]=="switch") {
+			i = o_idxs;
+			full_design = ts_Os;
+			o_idxs++;
+		} else {
+			i = o_idxn;
+			full_design = ts_On;
+			o_idxn++;
+		}
 	} else if (block=='B') {
 		practice_text="brightness";
 		prompt_text = '<p class=B>LIGHT or DARK?</p>';
-		i = b_idx;
-		full_design = ts_B;
-		b_idx++;
+		if (switch_order[j]=="switch") {
+			i = b_idxs;
+			full_design = ts_Bs;
+			b_idxs++;
+		} else {
+			i = b_idxn;
+			full_design = ts_Bn;
+			b_idxn++;
+		}
 	}
 			
 	var target = '';
