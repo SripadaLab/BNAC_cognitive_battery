@@ -221,8 +221,8 @@ var feedback_instruct_block = {
 	},
 	cont_key: [13],
 	text: getInstructFeedback,
-	timing_post_trial: 0,
-	timing_response: 180000
+	timing_post_trial: 0
+	//timing_response: 180000
 };
 /// This ensures that the subject does not read through the instructions too quickly.  If they do it too quickly, then we will go over the loop again.
 var instructions_block = {
@@ -266,7 +266,7 @@ var end_block = {
 		trial_id: "end",
     	exp_id: 'stroop'
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	text: '<div class = centerbox><p class = center-block-text>Thanks for completing this task!</p><p class = center-block-text>Press <strong>enter</strong> to continue.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 0,
@@ -278,7 +278,7 @@ var start_practice_block = {
 	data: {
 		trial_id: "practice_intro"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	text: '<div class = centerbox><p class = block-text>We will start with a few practice trials. Remember, press the key corresponding to the <strong>ink</strong> color of the word: "r" for words colored red, "b" for words colored blue, and "g" for words colored green.</p><p class = block-text>Press <strong>enter</strong> to begin practice.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000
@@ -289,7 +289,7 @@ var start_test_block = {
 	data: {
 		trial_id: "test_intro"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	text: '<div class = centerbox><p class = center-block-text>We will now start the test. Respond exactly like you did during practice.</p><p class = center-block-text>Press <strong>enter</strong> to begin the test.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000,

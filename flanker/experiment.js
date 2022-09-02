@@ -145,8 +145,8 @@ var feedback_instruct_block = {
 		trial_id: "instruction"
 	},
 	text: getInstructFeedback,
-	timing_post_trial: 0,
-	timing_response: 180000
+	timing_post_trial: 0
+	//timing_response: 180000
 };
 /// This ensures that the subject does not read through the instructions too quickly.  If they do it too quickly, then we will go over the loop again.
 var instructions_block = {
@@ -185,7 +185,7 @@ var instruction_node = {
 
 var end_block = {
 	type: 'poldrack-text',
-	timing_response: 180000,
+	//timing_response: 180000,
 	data: {
 		trial_id: "end",
 		exp_id: 'flanker'
@@ -200,7 +200,7 @@ var start_test_block = {
 	data: {
 		trial_id: "test_intro"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	text: '<div class = centerbox><p class = center-block-text>Done with practice. Starting test.</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000

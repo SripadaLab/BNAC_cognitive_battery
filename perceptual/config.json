@@ -1,18 +1,16 @@
 {
-    "cognitive_atlas_task_id": "trm_553ebfc390256",
+    "cognitive_atlas_task_id": "",
     "instructions":"Respond to the stimuli on the screen.",
     "description":"Expfactory experiment",
-    "url":"https://www.github.com/expfactory-experiments/perceptual-metacognition",
+    "url":"https://github.com/SripadaLab/BNAC_cognitive_battery/tree/main/perceptual",
     "contributors": [
-        "Ian Eisenberg",
-        "Zeynep Enkavi",
-        "Patrick Bissett",
-        "Vanessa Sochat",
-        "Russell Poldrack"
+        "Alex Weigard",
+        "Chandra Sripada",
+        "Mike Angstadt"
     ],
-    "exp_id": "perceptual-metacognition",
-    "name": "Perceptual Metacognition",
-    "reference": ["http://www.sciencedirect.com/science/article/pii/S1053810011002303"],
+    "exp_id": "bnac_perceptual",
+    "name": "Perceptual Task Switching",
+    "reference": [""],
     "template": "jspsych",
-    "time": 20
+    "time": 60
 }

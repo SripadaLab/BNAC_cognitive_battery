@@ -2,7 +2,7 @@
     "cognitive_atlas_task_id": "tsk_4a57abb949bcd",
     "instructions":"Respond to the stimuli on the screen.",
     "description":"Expfactory experiment",
-    "url":"https://www.github.com/expfactory-experiments/n-back",
+    "url":"https://github.com/SripadaLab/BNAC_cognitive_battery/tree/main/spatial_nback",
     "contributors": [
         "Ian Eisenberg",
         "Zeynep Enkavi",
@@ -10,10 +10,10 @@
         "Vanessa Sochat",
         "Russell Poldrack"
     ],
-    "exp_id": "n-back",
-    "name": "N-Back",
+    "exp_id": "bnac_spatial_n-back",
+    "name": "Spatial N-Back",
     "reference": ["This task differs in that the subject only has to respond on target trials, rather than indicating whether the current trial is  a match or not",
                   "http://www.sciencedirect.com/science/article/pii/S1053811905001424"],
     "template": "jspsych",
-    "time": 16
+    "time": 10
 }

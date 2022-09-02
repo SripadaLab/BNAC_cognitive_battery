@@ -67,8 +67,8 @@ var evenstim = '246'
 var oddstim = '357'
 var sides = '12'
 var num_blocks = 1 //
-var num_trials = 8 //per block 40 per block, randomly shuffled equal amounts of odd/even left/right, but actual number randomly drawn on each trial
-var num_practice_trials = 4 //per trial type
+var num_trials = 40 //per block 40 per block, randomly shuffled equal amounts of odd/even left/right, but actual number randomly drawn on each trial
+var num_practice_trials = 20 //per trial type
 var delays = jsPsych.randomization.shuffle([1,1,1,2,2,2])
 var factors = {
 	even: ['e','o'],
@@ -128,8 +128,8 @@ var feedback_instruct_block = {
 	},
 	cont_key: [13],
 	text: getInstructFeedback,
-	timing_post_trial: 0,
-	timing_response: 180000
+	timing_post_trial: 0
+	//timing_response: 180000
 };
 /// This ensures that the subject does not read through the instructions too quickly.  If they do it too quickly, then we will go over the loop again.
 var instructions_block = {
@@ -168,7 +168,7 @@ var instruction_node = {
 
 var end_block = {
 	type: 'poldrack-text',
-	timing_response: 180000,
+	//timing_response: 180000,
 	data: {
 		trial_id: "end",
 		exp_id: 'anti_saccade'
@@ -186,7 +186,7 @@ var start_practice_block = {
 	data: {
 		trial_id: "instruction"
 	},
-	timing_response: 180000,
+	//timing_response: 180000,
 	timing_post_trial: 1000
 };
 
@@ -222,7 +222,7 @@ anti_saccade_experiment.push(start_practice_block)
 practice_trials = []
 var practice_block = {
 	type: 'poldrack-text',
-	timing_response: 180000,
+	//timing_response: 180000,
 	data: {
 		trial_id: "saccade practice"
 	},
@@ -375,7 +375,7 @@ anti_saccade_experiment = anti_saccade_experiment.concat(practice_trials)
 practice_trials = []
 var practice_block = {
 	type: 'poldrack-text',
-	timing_response: 180000,
+	//timing_response: 180000,
 	data: {
 		trial_id: "anti-saccade practice"
 	},
@@ -545,7 +545,7 @@ for (var d = 0; d < delays.length; d++) {
 		data: {
 			trial_id: block_label
 		},
-		timing_response: 180000,
+		//timing_response: 180000,
 		text: '<div class = centerbox><p class = block-text>For the trials in this block, the number will always appear on the <i>' + sidetext + ' side</i> as the white flash.</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 		cont_key: [13]
 	};
