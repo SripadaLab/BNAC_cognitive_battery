@@ -47,8 +47,8 @@ var num_practice_trials = 4 //per trial type
 var blocks = jsPsych.randomization.shuffle(['F','O','B'])
 
 var factors = { 
-	freq: ['0.0655','0.0640','0.0610','0.0595'], 
-	orient: ['48','46.5','43.5','42'], 
+	freq: ['0.0665','0.0645','0.0605','0.0585'], 
+	orient: ['49','47','43','41'], 
 	bright: ['138','133','123','118']
 }
 var nstimuli = factors.freq.length * factors.orient.length * factors.bright.length;
@@ -370,6 +370,9 @@ function practiceTrials(block) {
 				stim: stim,
 				target: target,
 				correct_response: correct_response,
+				freq: freq,
+				orient: orient,
+				bright: bright
 			},
 			choices: [37,40],
 			key_answer: correct_response,
@@ -966,6 +969,9 @@ for (var d = 0; d < blocks.length; d++) {
 					stim: stim,
 					target: target,
 					correct_response: correct_response,
+					freq: full_design.freq[i],
+					orient: full_design.orient[i],
+					bright: full_design.bright[i]
 				},
 				choices: [37,40],
 				key_answer: correct_response,
@@ -1120,6 +1126,9 @@ for (j = 0; j<final_order.length; j++) {
 				stim: stim,
 				target: target,
 				correct_response: correct_response,
+				freq: full_design.freq[i],
+				orient: full_design.orient[i],
+				bright: full_design.bright[i]
 			},
 			choices: [37,40],
 			key_answer: correct_response,
