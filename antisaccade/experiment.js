@@ -181,7 +181,7 @@ var end_block = {
 
 var start_practice_block = {
 	type: 'poldrack-text',
-	text: '<div class = centerbox><p class = block-text>Practice is coming up next. Remember, you should press the left arrow key when the number is odd, and the down arrow key when the number is even. </p><p class = block-text>During practice, you will receive feedback about whether you were correct or not. There will be no feedback during the main experiment. Press <strong>enter</strong> to begin.</p></div>',
+	text: '<div class = centerbox><p class = block-text>Practice is coming up next. Remember, you should press the left arrow key when the number is odd, and the down arrow key when the number is even. </p><p class = block-text>During practice, you will receive visual feedback about whether you were correct or not and will hear a tone when you are incorrect. There will be no visual feedback during the main experiment, but you will still hear a tone on incorrect responses. Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
 	data: {
 		trial_id: "instruction"
@@ -270,7 +270,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="black"><div class="mask"></div></div></div></div></div>',
 			choices: 'none',
 			data: {
-				trial_id: "pre-trial fixation"
+				trial_id: "pre-trial fixation",
+				exp_stage: "prosaccade practice"
 			},
 			timing_stim: fixtime,
 			timing_response: fixtime,
@@ -282,7 +283,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			choices: 'none',
 			data: {
-				trial_id: "cue"
+				trial_id: "cue",
+				exp_stage: "prosaccade practice"
 			},
 			timing_stim: 400,
 			timing_response: 400,
@@ -307,7 +309,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			data: {
 				trial_id: "number",
-				exp_stage: "",
+				exp_stage: "prosaccade practice",
 				stim: stim,
 				target: target,
 				correct_response: correct_response
@@ -351,7 +353,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			show_stim_with_feedback: false,
 			data: {
 				trial_id: "mask",
-				exp_stage: "",
+				exp_stage: "prosaccade practice",
 				stim: stim,
 				target: target,
 				correct_response: correct_response
@@ -423,7 +425,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="black"><div class="mask"></div></div></div></div></div>',
 			choices: 'none',
 			data: {
-				trial_id: "pre-trial fixation"
+				trial_id: "pre-trial fixation",
+				exp_stage: "antisaccade practice"
 			},
 			timing_stim: fixtime,
 			timing_response: fixtime,
@@ -435,7 +438,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			choices: 'none',
 			data: {
-				trial_id: "cue"
+				trial_id: "cue",
+				exp_stage: "antisaccade practice"
 			},
 			timing_stim: 400,
 			timing_response: 400,
@@ -459,8 +463,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			is_html: true,
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			data: {
-				trial_id: "number",
-				exp_stage: "",
+				trial_id: "number",,
+				exp_stage: "antisaccade practice",
 				stim: stim,
 				target: target,
 				correct_response: correct_response
@@ -503,8 +507,8 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			timing_feedback_duration: 500,
 			show_stim_with_feedback: false,
 			data: {
-				trial_id: "mask",
-				exp_stage: "",
+				trial_id: "mask",,
+				exp_stage: "antisaccade practice",
 				stim: stim,
 				target: target,
 				correct_response: correct_response
@@ -535,10 +539,10 @@ for (var d = 0; d < delays.length; d++) {
 	var block_label = "error"
 	if (delay==1) {
 		sidetext="same"
-		block_label="saccade block"
+		block_label="prosaccade test block"
 	} else {
 		sidetext="opposite"
-		block_label="anti-saccade block"
+		block_label="antisaccade test block"
 	}
 	var start_delay_block = {
 		type: 'poldrack-text',
@@ -595,7 +599,8 @@ for (var d = 0; d < delays.length; d++) {
 					stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="black"><div class="mask"></div></div></div></div></div>',
 					choices: 'none',
 					data: {
-						trial_id: "pre-trial fixation"
+						trial_id: "pre-trial fixation",
+						exp_stage: block_label
 					},
 					timing_stim: fixtime,
 					timing_response: fixtime,
@@ -607,7 +612,8 @@ for (var d = 0; d < delays.length; d++) {
 					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 					choices: 'none',
 					data: {
-						trial_id: "cue"
+						trial_id: "cue",
+						exp_stage: block_label
 					},
 					timing_stim: 400,
 					timing_response: 400,
@@ -631,8 +637,8 @@ for (var d = 0; d < delays.length; d++) {
 					is_html: true,
 					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 					data: {
-						trial_id: "number",
-						exp_stage: "",
+						trial_id: "number",,
+						exp_stage: block_label,
 						stim: stim,
 						target: target,
 						correct_response: correct_response,
@@ -669,8 +675,8 @@ for (var d = 0; d < delays.length; d++) {
 					//stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="mask">' + gridtext + '</div></div></div></div>',
 					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 					data: {
-						trial_id: "mask",
-						exp_stage: "",
+						trial_id: "mask",,
+						exp_stage: block_label,
 						stim: stim,
 						target: target,
 						correct_response: correct_response
