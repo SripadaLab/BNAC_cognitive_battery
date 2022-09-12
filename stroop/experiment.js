@@ -240,7 +240,7 @@ var instructions_block = {
 };
 
 var instruction_node = {
-	timeline: [feedback_instruct_block, instructions_block],
+	timeline: [instructions_block],
 	/* This function defines stopping criteria */
 	loop_function: function(data) {
 		for (i = 0; i < data.length; i++) {
