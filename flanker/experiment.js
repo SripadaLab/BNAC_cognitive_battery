@@ -152,7 +152,7 @@ var feedback_instruct_block = {
 var instructions_block = {
 	type: 'poldrack-instructions',
 	pages: [
-		"<div class = centerbox><p class = block-text>In this experiment you will see five symbols on the screen composed of > and <. For instance, you might see '<<<<<' or '>><>>'. Your task is to respond by pressing the key corresponding to the <strong>middle</strong> symbol. So if you see '<<><<' you would press the right arrow key.</p><p class = block-text>After each response you will get audio feedback if your response was incorrect. We will start with a short practice set.</p></div>"
+		"<div class = centerbox><p class = block-text>In this experiment you will see five symbols on the screen composed of > and <. For instance, you might see '<<<<<' or '>><>>'. Your task is to respond by pressing the key corresponding to the <strong>middle</strong> symbol. So if you see '<<><<' you would press the right arrow key.</p><p class = block-text>After each response you will get audio feedback if your response was incorrect. We will start with a short practice set. During the practice you will receive visual feedback about whether your response is correct or not, but during the actual task you will only hear the audio feedback on an incorrect response.</p></div>"
 	],
 	allow_keys: false,
 	data: {
@@ -201,7 +201,7 @@ var start_test_block = {
 		trial_id: "test_intro"
 	},
 	//timing_response: 180000,
-	text: '<div class = centerbox><p class = center-block-text>Done with practice. Starting test.</p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
+	text: '<div class = centerbox><p class = center-block-text>The practice is finished. Remember, for the task you will not receive any visual feedback about your choice. You will hear the beep if you response is incorrect. </p><p class = center-block-text>Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000
 };

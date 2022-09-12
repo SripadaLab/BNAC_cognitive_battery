@@ -463,7 +463,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			is_html: true,
 			stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 			data: {
-				trial_id: "number",,
+				trial_id: "number",
 				exp_stage: "antisaccade practice",
 				stim: stim,
 				target: target,
@@ -507,7 +507,7 @@ for (var i = 0; i < (num_practice_trials); i++) {
 			timing_feedback_duration: 500,
 			show_stim_with_feedback: false,
 			data: {
-				trial_id: "mask",,
+				trial_id: "mask",
 				exp_stage: "antisaccade practice",
 				stim: stim,
 				target: target,
@@ -637,7 +637,7 @@ for (var d = 0; d < delays.length; d++) {
 					is_html: true,
 					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 					data: {
-						trial_id: "number",,
+						trial_id: "number",
 						exp_stage: block_label,
 						stim: stim,
 						target: target,
@@ -675,7 +675,7 @@ for (var d = 0; d < delays.length; d++) {
 					//stimulus: '<div class=centerbox><div class="container"><div class="white-outer g1"><div class="black"></div></div><div class="center-text g2">+</div><div class="white-outer g3"><div class="mask">' + gridtext + '</div></div></div></div>',
 					stimulus: '<div class=centerbox><div class="container">' + cuetextl + '<div class="center-text g2">+</div>' + cuetextr + '</div></div>',
 					data: {
-						trial_id: "mask",,
+						trial_id: "mask",
 						exp_stage: block_label,
 						stim: stim,
 						target: target,

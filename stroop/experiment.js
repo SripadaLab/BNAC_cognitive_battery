@@ -279,7 +279,7 @@ var start_practice_block = {
 		trial_id: "practice_intro"
 	},
 	//timing_response: 180000,
-	text: '<div class = centerbox><p class = block-text>We will start with a few practice trials. Remember, press the key corresponding to the <strong>ink</strong> color of the word: "r" for words colored red, "b" for words colored blue, and "g" for words colored green.</p><p class = block-text>Press <strong>enter</strong> to begin practice.</p></div>',
+	text: '<div class = centerbox><p class = block-text>We will start with a few practice trials. Remember, press the key corresponding to the <strong>ink</strong> color of the word: "r" for words colored red, "b" for words colored blue, and "g" for words colored green.</p><p class=block-text>During the practice you will see visual feedback about whether your reponse is correct or incorrect, and will hear an audio beep if your response is incorrect. During the actual task you will not see any visual feedback but will still hear a beep on an incorrect response.</p><p class = block-text>Press <strong>enter</strong> to begin practice.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000
 };
@@ -290,7 +290,7 @@ var start_test_block = {
 		trial_id: "test_intro"
 	},
 	//timing_response: 180000,
-	text: '<div class = centerbox><p class = center-block-text>We will now start the test. Respond exactly like you did during practice.</p><p class = center-block-text>Press <strong>enter</strong> to begin the test.</p></div>',
+	text: '<div class = centerbox><p class = center-block-text>We will now start the test. Respond exactly like you did during practice.</p><p class=block-text>During the task you will not see any visual feedback but will still hear a beep on an incorrect response.</p><p class = center-block-text>Press <strong>enter</strong> to begin the test.</p></div>',
 	cont_key: [13],
 	timing_post_trial: 1000,
 	on_finish: function() {
