@@ -181,7 +181,7 @@ var end_block = {
 
 var start_practice_block = {
 	type: 'poldrack-text',
-	text: '<div class = centerbox><p class = block-text>Practice is coming up next. Remember, you should press the left arrow key when the number is odd, and the down arrow key when the number is even. </p><p class = block-text>During practice, you will receive visual feedback about whether you were correct or not and will hear a tone when you are incorrect. There will be no visual feedback during the main experiment, but you will still hear a tone on incorrect responses. Press <strong>enter</strong> to begin.</p></div>',
+	text: '<div class = centerbox><p class = block-text>Practice is coming up next. Remember, you should press the left arrow key when the number is odd, and the down arrow key when the number is even. </p><p class = block-text>During practice, you will receive visual feedback about whether you were correct or not and will hear a tone when you are incorrect. There will be no visual feedback during the main experiment, but you will still hear a tone on incorrect responses. </p><p class=block-text>Press <strong>enter</strong> to begin.</p></div>',
 	cont_key: [13],
 	data: {
 		trial_id: "instruction"
