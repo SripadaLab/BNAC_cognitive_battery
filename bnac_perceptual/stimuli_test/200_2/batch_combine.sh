@@ -1,0 +1,21 @@
+magick g128.png img_f0.0275_a45.png -gravity center -composite stim/freq_f0.0275_a45_b128.png
+magick g128.png img_f0.0345_a45.png -gravity center -composite stim/freq_f0.0345_a45_b128.png
+magick g128.png img_f0.0415_a45.png -gravity center -composite stim/freq_f0.0415_a45_b128.png
+magick g128.png img_f0.0485_a45.png -gravity center -composite stim/freq_f0.0485_a45_b128.png
+magick g128.png img_f0.0555_a45.png -gravity center -composite stim/freq_f0.0555_a45_b128.png
+magick g128.png img_f0.0625_a45.png -gravity center -composite stim/freq_f0.0625_a45_b128.png
+magick g128.png img_f0.0695_a45.png -gravity center -composite stim/freq_f0.0695_a45_b128.png
+magick g128.png img_f0.0765_a45.png -gravity center -composite stim/freq_f0.0765_a45_b128.png
+magick g128.png img_f0.0835_a45.png -gravity center -composite stim/freq_f0.0835_a45_b128.png
+magick g128.png img_f0.0905_a45.png -gravity center -composite stim/freq_f0.0905_a45_b128.png
+magick g128.png img_f0.0975_a45.png -gravity center -composite stim/freq_f0.0975_a45_b128.png
+
+magick g128.png img_f0.0625_a5.png -gravity center -composite stim/orient_f0.0625_a05_b128.png
+magick g128.png img_f0.0625_a15.png -gravity center -composite stim/orient_f0.0625_a15_b128.png
+magick g128.png img_f0.0625_a25.png -gravity center -composite stim/orient_f0.0625_a25_b128.png
+magick g128.png img_f0.0625_a35.png -gravity center -composite stim/orient_f0.0625_a35_b128.png
+magick g128.png img_f0.0625_a45.png -gravity center -composite stim/orient_f0.0625_a45_b128.png
+magick g128.png img_f0.0625_a55.png -gravity center -composite stim/orient_f0.0625_a55_b128.png
+magick g128.png img_f0.0625_a65.png -gravity center -composite stim/orient_f0.0625_a65_b128.png
+magick g128.png img_f0.0625_a75.png -gravity center -composite stim/orient_f0.0625_a75_b128.png
+magick g128.png img_f0.0625_a85.png -gravity center -composite stim/orient_f0.0625_a85_b128.png
